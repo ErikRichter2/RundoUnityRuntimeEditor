@@ -112,7 +112,7 @@ namespace Rundo.RuntimeEditor.Behaviours
             if (_optionsContent.transform.childCount > 0)
             {
                 var firstChild = _optionsContent.transform.GetChild(0);
-                _optionPrefab = Instantiate(firstChild.gameObject);
+                _optionPrefab = Instantiate(firstChild.gameObject, transform);
                 _optionPrefab.SetActive(false);
                 
                 _dataProvider.DataActivated = (index, obj) =>
@@ -212,6 +212,12 @@ namespace Rundo.RuntimeEditor.Behaviours
             _expressionEvaluator.OnExpressionChange(ApplySearchFilter);
         }
 
+        protected override void OnDestroyInternal()
+        {
+            base.OnDestroyInternal();
+            Clear();
+        }
+
         public void SetLabel(string label)
         {
             _label.gameObject.SetActive(true);
@@ -271,6 +277,8 @@ namespace Rundo.RuntimeEditor.Behaviours
             Hide();
             _dataProvider?.Clear();
             _nullKeyInstantiatedElement = null;
+            foreach (var it in _instantiatedElements.Values)
+                Destroy(it.GameObject);
             _instantiatedElements.Clear();
         }
         

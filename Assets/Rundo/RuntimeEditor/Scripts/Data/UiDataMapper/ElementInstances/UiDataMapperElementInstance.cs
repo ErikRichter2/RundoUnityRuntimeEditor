@@ -5,6 +5,7 @@ using System.Reflection;
 using Rundo.Core.Data;
 using Rundo.RuntimeEditor.Behaviours;
 using Rundo.Core.Utils;
+using UnityEngine;
 
 namespace Rundo.RuntimeEditor.Data.UiDataMapper
 {
@@ -38,6 +39,13 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
         {
             UiDataMapper = uiDataMapper;
             _elementBehaviour = elementBehaviour;
+        }
+        
+        public string Name { get; private set; }
+
+        public void SetName(string name)
+        {
+            Name = name;
         }
 
         public bool IsElement(IUiDataMapperElementBehaviour elementBehaviour)
@@ -80,6 +88,8 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
         {
             _isReadOnly = true;
         }
+
+        public GameObject GameObject => _elementBehaviour.GameObject;
 
         protected void BindCustomDynamic(
             Action<UiDataMapperElementValue<object>> fromUiToData,

@@ -1,10 +1,9 @@
 ﻿using Rundo.Core.Data;
-using Rundo.RuntimeEditor.Behaviours;
 using UnityEngine;
 
-namespace Rundo.Ui
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    public abstract class InspectorBaseBehaviour : DataBaseBehaviour, IInspectorBehaviour
+    public abstract class InspectorWindowElementBehaviour : DataBaseBehaviour, IInspectorWindowElementBehaviour
     {
         public GameObject GameObject => gameObject;
         public virtual string Label { get; set; }

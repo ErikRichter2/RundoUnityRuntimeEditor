@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using Rundo.Core.Data;
-using Rundo.Ui;
 using Rundo.RuntimeEditor.Behaviours;
+using Rundo.RuntimeEditor.Factory;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -111,24 +111,32 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
             c ??= gameObject.AddComponent<T>();
             return c;
         }
+
+        public UiDataMapperElementInstance GetElementInstanceByName(string name)
+        {
+            foreach (var it in _uiDataMapperElementInstances)
+                if (it.Name == name)
+                    return it;
+            return null;
+        }
         
-        public UiDataMapperElementInstance CreatePrimitive(Type valueType, string label)
+        public UiDataMapperElementInstance CreatePrimitive(Type valueType, string label, string name)
         {
             if (UiElementsContent == null)
                 throw new Exception($"Need to call SetUiElementsContent() before Create");
             
-            var instance = UiElementsFactory.InstantiatePrimitive(valueType, label);
+            var element = InspectorFactory.InstantiatePrimitive(valueType, label);
             
-            if (instance == null)
+            if (element == null)
                 return null;
             
-            if (instance is MonoBehaviour monoBehaviour)
+            if (element is MonoBehaviour monoBehaviour)
             {
                 monoBehaviour.transform.SetParent(UiElementsContent);
 
                 Type dataMapperType = null;
 
-                if (instance is ICustomUiDataMapper customUiDataMapper)
+                if (element is ICustomUiDataMapper customUiDataMapper)
                     dataMapperType = customUiDataMapper.GetDataMapperType();
 
                 if (monoBehaviour.TryGetComponent<ICssElement>(out var cssElement))
@@ -136,15 +144,20 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
 
                 dataMapperType ??= typeof(UiDataMapperElementInstance<>).MakeGenericType(new Type[] { valueType });
                 
-                return Instantiate(dataMapperType, instance);
+                var instance = Instantiate(dataMapperType, element);
+                instance.SetName(name);
+                return instance;
             }
 
             throw new Exception($"Cannot create ui element for type {valueType.Name}");
         }
 
-        public UiDataMapperElementInstance<TValue> CreatePrimitive<TValue>(string label)
+        public UiDataMapperElementInstance<TValue> CreatePrimitive<TValue>(string label, string name = null)
         {
-            return CreatePrimitive(typeof(TValue), label) as UiDataMapperElementInstance<TValue>;
+            if (string.IsNullOrEmpty(name))
+                name = label;
+            
+            return CreatePrimitive(typeof(TValue), label, name) as UiDataMapperElementInstance<TValue>;
         }
 
         public UiDataMapperButtonInstance CreateButton(string label)
@@ -152,7 +165,7 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
             if (UiElementsContent == null)
                 throw new Exception($"Need to call SetUiElementsContent() before Create");
             
-            var instance = UiElementsFactory.Button(label);
+            var instance = InspectorFactory.Button(label);
             
             if (instance == null)
                 return null;

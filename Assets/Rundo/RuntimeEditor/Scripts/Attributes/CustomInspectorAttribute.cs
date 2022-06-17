@@ -8,14 +8,10 @@ namespace Rundo.RuntimeEditor.Attributes
     public class CustomInspectorAttribute : Attribute
     {
         public readonly Type Type;
-        public readonly string HeaderName;
-        public readonly bool ShowHeader;
         
-        public CustomInspectorAttribute(Type type, bool showHeader = true, string headerName = null)
+        public CustomInspectorAttribute(Type type)
         {
             Type = type;
-            HeaderName = headerName;
-            ShowHeader = showHeader;
         }
     }
 }

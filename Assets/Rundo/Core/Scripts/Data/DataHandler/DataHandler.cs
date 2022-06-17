@@ -366,6 +366,13 @@ namespace Rundo.Core.Data
             return new DataHandlerValue { Value = firstValue };
         }
 
+        public DataHandlerValue GetValue(string childMemberName)
+        {
+            var type = GetDataType();
+            var memberInfo = ReflectionUtils.GetMemberInfo(type, childMemberName);
+            return GetValue(memberInfo);
+        }
+
         public DataHandlerValue GetValue(params MemberInfo[] childMembers)
         {
             return GetValueInternal(childMembers);

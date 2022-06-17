@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
     public class ObjectPickerBehaviour : 
         UiDataMapperElementBehaviour<IDataComponentReference>, 

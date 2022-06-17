@@ -1,7 +1,7 @@
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
     public interface IDefaultInspectorOverride
     {
-        bool EDITOR_OverrideDefaultInspector(DefaultDataInspectorBehaviour defaultDataInspectorBehaviour);
+        bool OnDefaultInspectorRedraw(DefaultDataInspectorBehaviour defaultDataInspectorBehaviour);
     }
 }

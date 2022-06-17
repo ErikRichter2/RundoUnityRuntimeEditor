@@ -14,11 +14,6 @@ namespace Rundo.RuntimeEditor.Behaviours
         private EditorWorldRaycasterBehaviour _worldRaycasterBehaviour;
         private EditorRaycastHitColliderHandlerBehaviour _raycastHitColliderHandler;
 
-        private void Start()
-        {
-            _worldRaycasterBehaviour = gameObject.AddComponent<EditorWorldRaycasterBehaviour>();
-        }
-        
         private void Update()
         {
             if (Input.GetKeyUp(KeyCode.Delete))
@@ -57,16 +52,16 @@ namespace Rundo.RuntimeEditor.Behaviours
             if (RuntimeEditorController.SelectionBehaviour.IsTransformHandleDragging)
                 return;
             
-            var raycastedWorldObject = _worldRaycasterBehaviour.Raycast();
+            var rayCastedWorldObject = _worldRaycasterBehaviour.Raycast();
 
             // refresh outline
-            if (_raycastHitColliderHandler != raycastedWorldObject)
+            if (_raycastHitColliderHandler != rayCastedWorldObject)
             {
                 if (_raycastHitColliderHandler != null)
                     if (_raycastHitColliderHandler.SelectionState == EditorRaycastHitColliderHandlerBehaviour.SelectionStateEnum.Temporary)
                         _raycastHitColliderHandler.SelectionState = EditorRaycastHitColliderHandlerBehaviour.SelectionStateEnum.None;
 
-                _raycastHitColliderHandler = raycastedWorldObject;
+                _raycastHitColliderHandler = rayCastedWorldObject;
 
                 if (_raycastHitColliderHandler != null)
                     if (_raycastHitColliderHandler.SelectionState == EditorRaycastHitColliderHandlerBehaviour.SelectionStateEnum.None)
@@ -85,6 +80,15 @@ namespace Rundo.RuntimeEditor.Behaviours
                     RuntimeEditorController.SelectionBehaviour.ClearSelection();
                 }
             }
+        }
+
+        public override void Activate()
+        {
+            _worldRaycasterBehaviour ??= gameObject.AddComponent<EditorWorldRaycasterBehaviour>();
+        }
+
+        public override void Deactivate()
+        {
         }
     }
 }

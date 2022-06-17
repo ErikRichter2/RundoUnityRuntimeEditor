@@ -4,17 +4,16 @@ using Rundo.Core.Data;
 using Rundo.Core.Utils;
 using Rundo.RuntimeEditor.Attributes;
 using Rundo.RuntimeEditor.Data;
-using Rundo.RuntimeEditor.Behaviours.UI;
+using Rundo.RuntimeEditor.Factory;
 using Rundo.RuntimeEditor.Tools;
-using Rundo.Ui;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    [CustomInspector(typeof(DataComponent), false)]
-    public class CustomInspectorDataComponentBehaviour : InspectorBaseBehaviour
+    [CustomInspector(typeof(DataComponent))]
+    public class CustomInspectorDataComponentBehaviour : InspectorWindowElementBehaviour
     {
         [SerializeField] private TMP_Text _headerName;
         [SerializeField] private Button _headerOptions;
@@ -139,7 +138,7 @@ namespace Rundo.RuntimeEditor.Behaviours
                 return;
             
             var dataHandler = UiDataMapper.DataHandler.Copy().AddMember(nameof(DataComponent.ComponentData));
-            UiElementsFactory.DrawInspector(dataHandler, _content, false);
+            InspectorFactory.DrawInspector(dataHandler, _content, false);
 
             GetComponentInParent<CanvasRebuilderBehaviour>()?.Rebuild();
         }

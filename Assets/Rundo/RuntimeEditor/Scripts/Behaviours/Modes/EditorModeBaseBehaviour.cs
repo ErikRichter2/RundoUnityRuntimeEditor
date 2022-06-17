@@ -1,5 +1,9 @@
 namespace Rundo.RuntimeEditor.Behaviours
 {
-    public class EditorModeBaseBehaviour : EditorBaseBehaviour {}
+    public abstract class EditorModeBaseBehaviour : EditorBaseBehaviour
+    {
+        public abstract void Activate();
+        public abstract void Deactivate();
+    }
 }
 

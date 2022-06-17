@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    public class ProjectWindowResourcesDataProvider : ProjectWindowBaseDataProvider
+    public class ProjectWindowResourcesDataProviderBehaviour : ProjectWindowBaseDataProviderBehaviour
     {
-        private void Start()
-        {
-        }
-
         public override List<ProjectItemMetaData> GetData()
         {
             var res = new List<ProjectItemMetaData>();

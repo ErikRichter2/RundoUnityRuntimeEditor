@@ -1,6 +1,7 @@
 using System;
 using Rundo.Core.Data;
 using Rundo.RuntimeEditor.Data.UiDataMapper;
+using UnityEngine;
 
 namespace Rundo.RuntimeEditor.Behaviours
 {
@@ -75,6 +76,8 @@ namespace Rundo.RuntimeEditor.Behaviours
             _fromDataToUiConverter = fromDataToUiConverter;
             _fromUiToDataConverter = fromUiToDataConverter;
         }
+
+        public GameObject GameObject => gameObject;
     }
 }
     

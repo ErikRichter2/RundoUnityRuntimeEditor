@@ -10,22 +10,9 @@ namespace Rundo.RuntimeEditor.Behaviours
     /// </summary>
     public class PlaceObjectsEditorModeBehaviour : EditorModeBaseBehaviour
     {
-        private EditorRaycastHitColliderHandlerBehaviour _raycastHitColliderHandler;
         private DataGameObject _dataGameObject;
         private GameObject _gameObject;
         private Plane _plane;
-
-        private void Start()
-        {
-            _plane = new Plane(Vector3.up, Vector3.zero);
-        }
-
-        protected override void OnDestroyInternal()
-        {
-            base.OnDestroyInternal();
-            RuntimeEditorController.SelectionBehaviour.ClearSelection();
-            Destroy(_gameObject);
-        }
 
         private void Update()
         {
@@ -35,7 +22,7 @@ namespace Rundo.RuntimeEditor.Behaviours
                 RuntimeEditorController.SetMode<SelectObjectsEditorModeBehaviour>();
                 return;
             }
-            
+
             // mouse raycast
             if (_dataGameObject != null)
             {
@@ -62,7 +49,8 @@ namespace Rundo.RuntimeEditor.Behaviours
                 // place
                 if (Input.GetMouseButtonDown(0))
                 {
-                    CreateDataGameObjectCommand.Process(DataScene, RundoEngine.DataSerializer.Clone(_dataGameObject), DataScene);
+                    if (RuntimeEditorBehaviour.IsInputOverWorld)
+                        CreateDataGameObjectCommand.Process(DataScene, RundoEngine.DataSerializer.Clone(_dataGameObject), DataScene);
                 }
             }
         }
@@ -77,6 +65,17 @@ namespace Rundo.RuntimeEditor.Behaviours
             _gameObject.transform.SetParent(transform, true);
             
             RuntimeEditorController.SelectionBehaviour.AddToSelectionWithoutTransformGizmo(_dataGameObject);
+        }
+
+        public override void Activate()
+        {
+            _plane = new Plane(Vector3.up, Vector3.zero);
+        }
+
+        public override void Deactivate()
+        {
+            RuntimeEditorController.SelectionBehaviour.ClearSelection();
+            Destroy(_gameObject);
         }
     }
 }

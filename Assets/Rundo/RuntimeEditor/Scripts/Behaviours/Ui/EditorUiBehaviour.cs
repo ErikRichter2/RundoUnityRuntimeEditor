@@ -1,7 +1,7 @@
 using System;
 using Rundo.RuntimeEditor.Data;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
     public class EditorUiBehaviour : EditorBaseBehaviour
     {
@@ -26,9 +26,9 @@ namespace Rundo.RuntimeEditor.Behaviours
             public DataGameObjectId DataGameObjectId;
         }
 
-        public InspectorPopupBehaviour InspectorWindow => GetComponentInChildren<InspectorPopupBehaviour>(true);
+        public InspectorWindowBehaviour InspectorWindow => GetComponentInChildren<InspectorWindowBehaviour>(true);
         public HierarchyWindowBehaviour HierarchyWindow => GetComponentInChildren<HierarchyWindowBehaviour>(true);
-        public PrefabsWindowBehaviour ProjectWindow => GetComponentInChildren<PrefabsWindowBehaviour>(true);
+        public ProjectWindowBehaviour ProjectWindow => GetComponentInChildren<ProjectWindowBehaviour>(true);
 
         private void Start()
         {

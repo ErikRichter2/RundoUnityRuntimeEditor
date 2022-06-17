@@ -1,13 +1,12 @@
 using Rundo.Core.Data;
 using Rundo.RuntimeEditor.Attributes;
 using Rundo.RuntimeEditor.Data;
-using Rundo.Ui;
 using UnityEngine;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    [CustomInspector(typeof(DataScene), false)]
-    public class CustomInspectorDataSceneBehaviour : InspectorBaseBehaviour
+    [CustomInspector(typeof(DataScene))]
+    public class CustomInspectorDataSceneBehaviour : InspectorWindowElementBehaviour
     {
         [SerializeField] private Transform _content;
 

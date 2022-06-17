@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    public class PrefabsWindowBehaviour : EditorBaseBehaviour
+    public class ProjectWindowBehaviour : EditorBaseBehaviour
     {
         [SerializeField] private Transform _content;
-        [SerializeField] private PrefabsWindowItemBehaviour _prefabsWindowItemPrefab;
+        [SerializeField] private ProjectWindowItemBehaviour _prefabsWindowItemPrefab;
         [SerializeField] private ProjectItemsSearchFilterBehaviour _projectItemsSearchFilterBehaviour;
         [SerializeField] private Button _closeBtn;
 
-        private readonly List<PrefabsWindowItemBehaviour> _items = new List<PrefabsWindowItemBehaviour>();
+        private readonly List<ProjectWindowItemBehaviour> _items = new List<ProjectWindowItemBehaviour>();
         private readonly Dictionary<GameObject, Texture2D> _screenshotsCache = new Dictionary<GameObject, Texture2D>();
-        private readonly Queue<PrefabsWindowItemBehaviour> _screenshotsQueue = new Queue<PrefabsWindowItemBehaviour>();
+        private readonly Queue<ProjectWindowItemBehaviour> _screenshotsQueue = new Queue<ProjectWindowItemBehaviour>();
         
         private void Start()
         {
             var data = new List<ProjectItemMetaData>();
 
-            foreach (var it in GetComponents<ProjectWindowBaseDataProvider>())
+            foreach (var it in GetComponents<ProjectWindowBaseDataProviderBehaviour>())
                 if (it.enabled)
                     data.AddRange(it.GetData());
             

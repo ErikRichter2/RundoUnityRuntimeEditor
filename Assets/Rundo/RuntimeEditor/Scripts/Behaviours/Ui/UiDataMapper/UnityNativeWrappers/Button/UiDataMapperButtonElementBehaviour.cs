@@ -23,5 +23,7 @@ namespace Rundo.RuntimeEditor.Behaviours
         public void SetUndefValue()
         {
         }
+
+        public GameObject GameObject => gameObject;
     }
 }

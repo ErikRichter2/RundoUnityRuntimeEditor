@@ -1,8 +1,11 @@
 using TMPro;
 using UnityEngine;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
+    /// <summary>
+    /// Wrapper over complex objects (classes/structs) - shows expand button and a name
+    /// </summary>
     public class InspectorComplexDataHolderBehaviour : MonoBehaviour
     {
         [SerializeField] private TMP_Text _label;

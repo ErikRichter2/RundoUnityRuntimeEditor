@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Rundo.Core.Data;
 using Rundo.RuntimeEditor.Data.UiDataMapper;
 using Rundo.RuntimeEditor.Tools;
-using Rundo.Ui;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -13,7 +12,9 @@ namespace Rundo.RuntimeEditor.Behaviours
     /// </summary>
     public abstract class DataBaseBehaviour : EditorBaseBehaviour
     {
-        protected readonly UiDataMapper UiDataMapper = new UiDataMapper();
+        public readonly UiDataMapper UiDataMapper = new UiDataMapper();
+
+        public DataHandler DataHandler => UiDataMapper.DataHandler;
 
         private bool _redraw;
         private bool _onDataSet;

@@ -5,14 +5,14 @@ using Rundo.Core.Data;
 using Rundo.Core.Utils;
 using Rundo.RuntimeEditor.Attributes;
 using Rundo.RuntimeEditor.Data;
+using Rundo.RuntimeEditor.Factory;
 using Rundo.RuntimeEditor.Tools;
-using Rundo.Ui;
 using UnityEngine;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    [CustomInspector(typeof(DataGameObject), false)]
-    public class CustomInspectorDataGameObjectBehaviour : InspectorBaseBehaviour
+    [CustomInspector(typeof(DataGameObject))]
+    public class CustomInspectorDataGameObjectBehaviour : InspectorWindowElementBehaviour
     {
         [SerializeField] private GameObject _componentsContent;
         [SerializeField] private DropDownBehaviour _addComponent;
@@ -125,7 +125,7 @@ namespace Rundo.RuntimeEditor.Behaviours
                     var dataHandler = new DataHandler(UiDataMapper.DataHandler.CommandProcessor);
                     dataHandler.SetRootDataList(data);
                     
-                    UiElementsFactory.DrawInspector(dataHandler, _componentsContent.transform, false);
+                    InspectorFactory.DrawInspector(dataHandler, _componentsContent.transform, false);
                 }
             }
 

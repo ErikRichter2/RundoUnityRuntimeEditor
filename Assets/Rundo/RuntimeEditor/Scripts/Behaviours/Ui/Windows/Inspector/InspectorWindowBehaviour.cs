@@ -1,12 +1,11 @@
 using Rundo.Core.Data;
-using Rundo.RuntimeEditor.Commands;
-using Rundo.Ui;
+using Rundo.RuntimeEditor.Factory;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    public class InspectorPopupBehaviour : DataBaseBehaviour
+    public class InspectorWindowBehaviour : DataBaseBehaviour
     {
         [SerializeField] private GameObject _mainContent;
         [SerializeField] private Transform _dynamicContent;
@@ -41,12 +40,6 @@ namespace Rundo.RuntimeEditor.Behaviours
             Rebuild();
         }
 
-        private void ClearInspectors()
-        {
-            foreach (Transform child in _dynamicContent.transform)
-                Destroy(child.gameObject);
-        }
-
         protected override void RedrawInternal()
         {
             _mainContent.SetActive(HasData());
@@ -54,16 +47,10 @@ namespace Rundo.RuntimeEditor.Behaviours
         
         private void Rebuild()
         {
-            ClearInspectors();
+            foreach (Transform child in _dynamicContent.transform)
+                Destroy(child.gameObject);
 
-            if (HasData() == false)
-                return;
-            
-            UiElementsFactory.DrawInspector(UiDataMapper.DataHandler, _dynamicContent);
-            /*
-            UiElementsFactory.InstantiateInspectorPrefab(
-                UiDataMapper.DataHandler.GetDataType(), 
-                _dynamicContent, false)?.SetData(UiDataMapper.DataHandler.Copy(), "");*/
+            InspectorFactory.DrawInspector(UiDataMapper.DataHandler, _dynamicContent);
         }
 
     }    

@@ -1,13 +1,12 @@
 using Rundo.Core.Data;
 using Rundo.RuntimeEditor.Attributes;
-using Rundo.Ui;
 using TMPro;
 using UnityEngine;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    [CustomInspector(typeof(Vector3), false)]
-    public class InputFieldVector3Behaviour : DataBaseBehaviour, ICssElement, IInspectorBehaviour
+    [CustomInspector(typeof(Vector3))]
+    public class InputFieldVector3Behaviour : DataBaseBehaviour, ICssElement, IInspectorWindowElementBehaviour
     {
         [SerializeField] private TMP_Text _label;
         [SerializeField] private InputFieldFloatBehaviour _x;

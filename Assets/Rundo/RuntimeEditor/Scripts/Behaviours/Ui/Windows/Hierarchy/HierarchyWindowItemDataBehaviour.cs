@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
     public class HierarchyWindowItemDataBehaviour : HierarchyWindowItemBaseBehaviour
     {
@@ -121,5 +121,9 @@ namespace Rundo.RuntimeEditor.Behaviours
             return false;
         }
 
+        protected override void ProcessDragDrop(DataGameObject dataGameObject)
+        {
+            dataGameObject.SetDataGameObjectParent(DataGameObject);
+        }
     }
 }

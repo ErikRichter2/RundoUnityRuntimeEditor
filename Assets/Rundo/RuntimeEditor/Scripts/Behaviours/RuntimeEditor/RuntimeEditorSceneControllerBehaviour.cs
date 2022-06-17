@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Rundo.Core.Commands;
 using Rundo.Core.Data;
 using Rundo.Core.EventSystem;
-using Rundo.Core.Utils;
+using Rundo.RuntimeEditor.Behaviours.UI;
 using Rundo.RuntimeEditor.Data;
 using UnityEngine;
 
@@ -162,9 +162,13 @@ namespace Rundo.RuntimeEditor.Behaviours
         public T SetMode<T>() where T : EditorModeBaseBehaviour
         {
             if (_currentMode != null)
+            {
+                _currentMode.Deactivate();
                 Destroy(_currentMode);
+            }
     
             _currentMode = gameObject.AddComponent<T>();
+            _currentMode.Activate();
             return (T)_currentMode;
         }
         

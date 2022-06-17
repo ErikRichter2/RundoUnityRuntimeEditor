@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using Rundo.Core.Data;
 using Rundo.RuntimeEditor.Data.UiDataMapper;
 using Rundo.RuntimeEditor.Behaviours;
+using UnityEngine;
 
 namespace Rundo.RuntimeEditor.Behaviours
 {
     public interface IUiDataMapperElementBehaviour
     {
+        public GameObject GameObject { get; }
     }
 
     public interface IUiDataMapperDynamicValuesCustomHandler

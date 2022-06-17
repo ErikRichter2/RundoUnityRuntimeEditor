@@ -1,25 +1,27 @@
 using System;
 using System.Collections.Generic;
-using Rundo.Ui;
+using System.Reflection;
 using Rundo.Core.Utils;
+using Rundo.RuntimeEditor.Factory;
 using Rundo.RuntimeEditor.Tools;
 using UnityEngine;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    public class DefaultDataInspectorBehaviour : InspectorBaseBehaviour
+    /// <summary>
+    /// Default inspector for drawing primitive/object values (so everything excluded list)
+    /// </summary>
+    public class DefaultDataInspectorBehaviour : InspectorWindowElementBehaviour
     {
         [SerializeField] private Transform _content;
         
-        private static readonly Dictionary<Type, object> _redrawInspectorTypeCache = new Dictionary<Type, object>();
+        private static readonly Dictionary<Type, object> RedrawInspectorTypeCache = new Dictionary<Type, object>();
         
         protected override Transform GetUiDataMapperDefaultContent => _content;
 
         private Type _currentType;
+        private List<(string, GameObject)> _defaultElements = new List<(string, GameObject)>();
         
-        private readonly List<GameObject> _instantiatedUiElements = new List<GameObject>();
-        private readonly List<IInspectorBehaviour> _inspectorBehaviours = new List<IInspectorBehaviour>();
-
         protected override void MapUi() {}
 
         protected override void OnDataSetInternal()
@@ -41,47 +43,25 @@ namespace Rundo.RuntimeEditor.Behaviours
 
             _currentType = UiDataMapper.DataHandler.GetDataType();
 
-            CreateUiElements();
+            DrawInspector();
         }
 
-        public void ClearUiElements()
+        private void ClearUiElements()
         {
             UiDataMapper.ClearElements();
-
-            foreach (var it in _instantiatedUiElements)
-                Destroy(it);
-            
-            _inspectorBehaviours.Clear();
         }
 
-        private void CreateUiElements()
+        public void DrawInspector()
         {
+            ClearUiElements();
+            
             var isReadOnly = false;
 
             if (UiDataMapper.DataHandler.ReadOnlyProvider != null)
                 isReadOnly = UiDataMapper.DataHandler.ReadOnlyProvider.Invoke();
-            
-            var createDefault = true;
-            
-            // check if the type declares 'OnRedrawInspector'
-            var onRedrawInspectorMethod = _currentType.GetMethod(nameof(IDefaultInspectorOverride.EDITOR_OverrideDefaultInspector));
-            if (onRedrawInspectorMethod != null)
-            {
-                object redrawInstance = null;
-                if (_redrawInspectorTypeCache.TryGetValue(_currentType, out redrawInstance) == false)
-                {
-                    redrawInstance = Activator.CreateInstance(_currentType);
-                    _redrawInspectorTypeCache[_currentType] = redrawInstance;
-                }
-                createDefault = (bool)onRedrawInspectorMethod.Invoke(_redrawInspectorTypeCache[_currentType], new object[] { this });
-            }
 
-            if (createDefault == false)
-                return;
-            
-            ClearUiElements();
-            
-            var uiDataMapperElement = UiDataMapper.CreatePrimitive(_currentType, UiDataMapper.DataHandler.GetLastMemberName());
+            var name = UiDataMapper.DataHandler.GetLastMemberName();
+            var uiDataMapperElement = UiDataMapper.CreatePrimitive(_currentType, StringUtils.ToPascalCase(name), name);
 
             // ui element exist for the current type
             if (uiDataMapperElement != null)
@@ -104,7 +84,7 @@ namespace Rundo.RuntimeEditor.Behaviours
                             continue;
                 
                     // handle primitives
-                    uiDataMapperElement = UiDataMapper.CreatePrimitive(memberType, StringUtils.ToPascalCase(memberInfo.Name));
+                    uiDataMapperElement = UiDataMapper.CreatePrimitive(memberType, StringUtils.ToPascalCase(memberInfo.Name), memberInfo.Name);
                     if (uiDataMapperElement != null)
                     {
                         if (isReadOnly)
@@ -113,11 +93,38 @@ namespace Rundo.RuntimeEditor.Behaviours
                         continue;
                     }
                     
-                    UiElementsFactory.DrawInspector(data, _content);
+                    _defaultElements.Add((memberInfo.Name, InspectorFactory.DrawInspector(data, _content)));
                 }
             }
                     
             GetComponentInParent<CanvasRebuilderBehaviour>()?.Rebuild();
+        }
+
+        protected override void RedrawInternal()
+        {
+            base.RedrawInternal();
+            
+            // check if the type declares static method 'EDITOR_OverrideDefaultInspector'
+            var onRedrawInspectorMethod = _currentType.GetMethod(nameof(IDefaultInspectorOverride.OnDefaultInspectorRedraw), BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            if (onRedrawInspectorMethod != null)
+            {
+                if (RedrawInspectorTypeCache.TryGetValue(_currentType, out var redrawInstance) == false)
+                {
+                    redrawInstance = Activator.CreateInstance(_currentType);
+                    RedrawInspectorTypeCache[_currentType] = redrawInstance;
+                }
+                
+                onRedrawInspectorMethod.Invoke(RedrawInspectorTypeCache[_currentType], new object[] { this });
+            }
+        }
+
+        public GameObject GetElementInstanceByName(string name)
+        {
+            foreach (var it in _defaultElements)
+                if (it.Item1 == name)
+                    return it.Item2;
+
+            return UiDataMapper.GetElementInstanceByName(name)?.GameObject;
         }
     }
     

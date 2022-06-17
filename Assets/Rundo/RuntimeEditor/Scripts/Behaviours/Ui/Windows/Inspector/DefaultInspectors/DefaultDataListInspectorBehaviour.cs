@@ -2,16 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Rundo.Core.Commands;
-using Rundo.Ui;
 using Rundo.Core.Utils;
+using Rundo.RuntimeEditor.Factory;
 using Rundo.RuntimeEditor.Tools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    public class DefaultDataListInspectorBehaviour : InspectorBaseBehaviour
+    /// <summary>
+    /// Default inspector for drawing object of IList type
+    /// </summary>
+    public class DefaultDataListInspectorBehaviour : InspectorWindowElementBehaviour
     {
         [SerializeField] private TMP_Text _label;
         [SerializeField] private Button _add;
@@ -147,7 +150,7 @@ namespace Rundo.RuntimeEditor.Behaviours
             itemContent.SetOnClick(OnListItemBehaviourClick);
 
             // handle primitives
-            var uiDataMapperElement = UiDataMapper.CreatePrimitive(_currentType, "");
+            var uiDataMapperElement = UiDataMapper.CreatePrimitive(_currentType, "", "");
             if (uiDataMapperElement != null)
             {
                 uiDataMapperElement.BindListIndex(index);
@@ -155,7 +158,7 @@ namespace Rundo.RuntimeEditor.Behaviours
             }
             
             var dataHandler = UiDataMapper.DataHandler.Copy().AddListElement(index);
-            UiElementsFactory.DrawInspector(dataHandler, itemContent.Content, false);
+            InspectorFactory.DrawInspector(dataHandler, itemContent.Content, false);
         }
     }
 }

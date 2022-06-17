@@ -1,12 +1,10 @@
-﻿using Rundo.RuntimeEditor.Behaviours;
-using Rundo.Core.Utils;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    public class PrefabsWindowItemBehaviour : EditorBaseBehaviour
+    public class ProjectWindowItemBehaviour : EditorBaseBehaviour
     {
         [SerializeField] private TMP_Text _prefabName;
         [SerializeField] private Button _button;

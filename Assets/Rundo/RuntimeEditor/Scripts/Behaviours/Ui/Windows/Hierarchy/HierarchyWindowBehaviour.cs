@@ -114,6 +114,9 @@ namespace Rundo.RuntimeEditor.Behaviours
             
             _items.Clear();
 
+            if (dataGameObjects.Count <= 0)
+                return;
+            
             foreach (var metadata in dataGameObjects)
             {
                 var isExpression = _dataGameObjectsSearchFilterBehaviour.IsExpression;
@@ -122,17 +125,26 @@ namespace Rundo.RuntimeEditor.Behaviours
                     continue;
 
                 var depth = isExpression ? 0 : metadata.Depth;
-                
+
+                var separator = Instantiate(_hierarchyViewItemSeparatorPrefab, _content);
+                _items.Add(separator);
+                separator.SetData(metadata.DataGameObject, 0);
+
                 var item = Instantiate(_hierarchyViewItemDataPrefab, _content);
                 _items.Add(item);
                 item.SetData(metadata.DataGameObject, depth);
                 if (_dataGameObjectsSearchFilterBehaviour.IsExpression)
                     item.HideExpandedCollapsedButtons();
 
-                var separator = Instantiate(_hierarchyViewItemSeparatorPrefab, _content);
-                _items.Add(separator);
-                separator.SetData(metadata.DataGameObject, depth);
+                //separator = Instantiate(_hierarchyViewItemSeparatorPrefab, _content);
+                //_items.Add(separator);
+                //separator.SetData(metadata.DataGameObject, depth);
             }
+
+            var lastSeparator = Instantiate(_hierarchyViewItemSeparatorPrefab, _content);
+            _items.Add(lastSeparator);
+            lastSeparator.SetData(null, 0);
+
         }
 
         private void OnSelectionChanged()
@@ -162,13 +174,12 @@ namespace Rundo.RuntimeEditor.Behaviours
                 })
                 .AddItemData(new ContextMenuItemData<object>
                 {
-                    Name = "Add Lightning",
+                    Name = "Add Light",
                     Callback = obj =>
                     {
-                        var lightningPrefab =
-                            RuntimeEditor.GetPrefab(TGuid<TPrefabId>.Create("cb77c5d7-d145-4122-9df4-0b1e506652f8"));
-                        var levelData = DataScene.InstantiateDataGameObjectFromPrefab(lightningPrefab);
-                        CreateDataGameObjectCommand.Process(DataScene, levelData, DataScene);
+                        var go = DataGameObject.Instantiate();
+                        go.AddComponent<DataLightBehaviour>();
+                        CreateDataGameObjectCommand.Process(DataScene, go, DataScene);
                     }
                 });
         }

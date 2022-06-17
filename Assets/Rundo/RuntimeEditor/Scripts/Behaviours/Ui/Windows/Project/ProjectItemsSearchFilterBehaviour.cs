@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
     public class ProjectItemsSearchFilterBehaviour : SearchFilterBehaviour<ProjectItemMetaData>
     {

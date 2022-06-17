@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Rundo.RuntimeEditor.Attributes;
+using Rundo.RuntimeEditor.Behaviours.UI;
 using Rundo.Ui;
 using UnityEngine;
 
@@ -126,8 +127,8 @@ namespace Rundo.Core.Data
                 var customInspector = type.GetCustomAttribute<CustomInspectorAttribute>();
                 if (customInspector != null)
                 {
-                    if (typeof(IInspectorBehaviour).IsAssignableFrom(type) == false)
-                        throw new Exception($"Class {type.Name} with {nameof(CustomInspectorAttribute)} attribute must implement {nameof(IInspectorBehaviour)}");
+                    if (typeof(IInspectorWindowElementBehaviour).IsAssignableFrom(type) == false)
+                        throw new Exception($"Class {type.Name} with {nameof(CustomInspectorAttribute)} attribute must implement {nameof(IInspectorWindowElementBehaviour)}");
                     _customInspectors.Add((type, customInspector));
                 }
             }

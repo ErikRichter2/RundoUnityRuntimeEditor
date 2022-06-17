@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using Rundo.Core.Data;
-using Rundo.RuntimeEditor.Behaviours;
 using Rundo.RuntimeEditor.Data;
 using Rundo.RuntimeEditor.Tools;
-using Rundo.Ui;
 using RuntimeHandle;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GridAdventureGame
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
     public class EditorUiMenuBehaviour : EditorBaseBehaviour
     {
@@ -66,7 +64,7 @@ namespace GridAdventureGame
 
             _inspectorBtn.onClick.AddListener(() =>
             {
-                DispatchUiEvent(new EditorUiBehaviour.ToggleWindowEvent{Window = typeof(InspectorPopupBehaviour)});
+                DispatchUiEvent(new EditorUiBehaviour.ToggleWindowEvent{Window = typeof(InspectorWindowBehaviour)});
             });
 
             _hierarchyBtn.onClick.AddListener(() =>
@@ -76,7 +74,7 @@ namespace GridAdventureGame
             
             _prefabsBtn.onClick.AddListener(() =>
             {
-                DispatchUiEvent(new EditorUiBehaviour.ToggleWindowEvent{Window = typeof(PrefabsWindowBehaviour)});
+                DispatchUiEvent(new EditorUiBehaviour.ToggleWindowEvent{Window = typeof(ProjectWindowBehaviour)});
             });
             
             _transformPositionBtn.onClick.AddListener(() =>

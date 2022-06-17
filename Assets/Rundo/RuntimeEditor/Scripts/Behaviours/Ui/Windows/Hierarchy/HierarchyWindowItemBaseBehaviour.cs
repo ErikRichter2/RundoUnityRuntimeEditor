@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 
-namespace Rundo.RuntimeEditor.Behaviours
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
     public abstract class HierarchyWindowItemBaseBehaviour : EditorBaseBehaviour, IPointerEnterHandler, IPointerExitHandler, IDragDropHandler
     {
@@ -61,17 +61,9 @@ namespace Rundo.RuntimeEditor.Behaviours
             if (dragDropData == DataGameObject)
                 return;
 
-            if (this is HierarchyWindowItemDataBehaviour hierarchyViewItemDataBehaviour)
-            {
-                dragDropData.SetDataGameObjectParent(hierarchyViewItemDataBehaviour.DataGameObject);
-            }
-            else if (this is HierarchyWindowItemSeparatorBehaviour
-                hierarchyViewItemSeparatorBehaviour)
-            {
-                var index = hierarchyViewItemSeparatorBehaviour.DataGameObject.GetDataGameObjectParent().GetCollection()
-                    .IndexOf(hierarchyViewItemSeparatorBehaviour.DataGameObject);
-                dragDropData.SetDataGameObjectParent(hierarchyViewItemSeparatorBehaviour.DataGameObject.GetDataGameObjectParent(), index);
-            }
+            ProcessDragDrop(dragDropData);
         }
+
+        protected abstract void ProcessDragDrop(DataGameObject dataGameObject);
     }
 }

@@ -26,15 +26,16 @@ namespace Rundo.RuntimeEditor.Behaviours
         private readonly List<object> _selection = new List<object>();
         private readonly List<GameObject> _transformableSelection = new List<GameObject>();
         private readonly List<SelectionTransformHandleSync> _transformSyncData = new List<SelectionTransformHandleSync>();
+        private GameObject _runtimeTransformHandleMultiTarget;
 
         public bool IsTransformHandleDragging =>
             _runtimeTransformHandle.gameObject.activeSelf && _runtimeTransformHandle.IsDragging;
 
         private void Start()
         {
-            var selectionContainerGo = new GameObject("SelectionContainer");
-            selectionContainerGo.transform.SetParent(transform);
-            _runtimeTransformHandle = RuntimeTransformHandle.Create(selectionContainerGo.transform, HandleType.POSITION);
+            _runtimeTransformHandleMultiTarget = new GameObject("SelectionContainer");
+            _runtimeTransformHandleMultiTarget.transform.SetParent(transform);
+            _runtimeTransformHandle = RuntimeTransformHandle.Create(_runtimeTransformHandleMultiTarget.transform, HandleType.POSITION);
             _runtimeTransformHandle.transform.SetParent(transform, true);
             _runtimeTransformHandle.gameObject.name = "RuntimeTransformHandle";
             _runtimeTransformHandle.gameObject.SetActive(false);
@@ -178,18 +179,27 @@ namespace Rundo.RuntimeEditor.Behaviours
             if (_transformableSelection.Count <= 0)
                 return;
 
-            var selectionPositions = new List<Vector3>();
+            if (_transformableSelection.Count == 1)
+            {
+                _runtimeTransformHandle.target = _transformableSelection[0].transform;
+            }
+            else
+            {
+                _runtimeTransformHandle.target = _runtimeTransformHandleMultiTarget.transform;
 
-            foreach (var it in _transformableSelection)
-                selectionPositions.Add(it.GetComponent<DataGameObjectBehaviour>().DataGameObject.GetComponent<DataTransformBehaviour>().Data.Position);
+                var selectionPositions = new List<Vector3>();
+
+                foreach (var it in _transformableSelection)
+                    selectionPositions.Add(it.GetComponent<DataGameObjectBehaviour>().DataGameObject.GetComponent<DataTransformBehaviour>().Data.Position);
             
-            if (selectionPositions.Count <= 0)
-                return;
+                if (selectionPositions.Count <= 0)
+                    return;
          
-            var center = GeometryUtility.CalculateBounds(selectionPositions.ToArray(), Matrix4x4.identity).center;
-            _runtimeTransformHandle.target.position = center;
-            _runtimeTransformHandle.target.rotation = Quaternion.identity;
-            _runtimeTransformHandle.target.localScale = Vector3.one;
+                var center = GeometryUtility.CalculateBounds(selectionPositions.ToArray(), Matrix4x4.identity).center;
+                _runtimeTransformHandle.target.position = center;
+                _runtimeTransformHandle.target.rotation = Quaternion.identity;
+                _runtimeTransformHandle.target.localScale = Vector3.one;
+            }
         }
 
         public void ClearSelection()

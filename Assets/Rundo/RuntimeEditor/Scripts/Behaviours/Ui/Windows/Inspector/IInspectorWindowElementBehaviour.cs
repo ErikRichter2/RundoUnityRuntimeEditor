@@ -1,9 +1,9 @@
 ﻿using Rundo.Core.Data;
 using UnityEngine;
 
-namespace Rundo.Ui
+namespace Rundo.RuntimeEditor.Behaviours.UI
 {
-    public interface IInspectorBehaviour
+    public interface IInspectorWindowElementBehaviour
     {
         GameObject GameObject { get; }
         string Label { get; set; }

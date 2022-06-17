@@ -57,8 +57,13 @@ namespace Rundo.RuntimeEditor.Commands
             
             Assert.IsNotNull(ParentNew);
 
+            var index = ChildIndexNew;
+            
             ParentPrev?.GetCollection().Remove(Child);
-            ParentNew.GetCollection().Insert(ChildIndexNew, Child);
+            if (ParentPrev == ParentNew && ChildIndexNew > ChildIndexPrev)
+                index--;
+            
+            ParentNew.GetCollection().Insert(index, Child);
         }
     }
 }

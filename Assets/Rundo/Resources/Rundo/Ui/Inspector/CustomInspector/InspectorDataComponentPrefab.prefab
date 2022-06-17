@@ -642,6 +642,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Override
       objectReference: {fileID: 0}
+    - target: {fileID: 6959709966854780919, guid: b5941ec564930714cadda636238ce9ef, type: 3}
+      propertyPath: m_text
+      value: Override
+      objectReference: {fileID: 0}
     - target: {fileID: 8953447410534287297, guid: b5941ec564930714cadda636238ce9ef, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
