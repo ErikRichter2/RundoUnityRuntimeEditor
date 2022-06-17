@@ -258,16 +258,7 @@ namespace Rundo.RuntimeEditor.Behaviours
 
         private void OnTextSubmitInternal(string value)
         {
-            var found = false;
-            
             Value = value;
-            for (int i = 0; i < _dataProvider.Count; ++i)
-                if (_dataProvider.Get(i).UniqueId == value)
-                {
-                    found = true;
-                    break;
-                }
-            
             RefreshSelection();
             _onSubmit?.Invoke(new UiDataMapperElementValue<string>(Value));
         }

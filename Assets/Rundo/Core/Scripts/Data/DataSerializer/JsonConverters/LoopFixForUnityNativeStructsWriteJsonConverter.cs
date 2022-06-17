@@ -81,7 +81,9 @@ namespace Rundo.Core.Data
                    typeof(Vector2Int) == objectType;
         }
         
+#nullable enable
         public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+#nullable disable
         {
             throw new NotImplementedException();
         }

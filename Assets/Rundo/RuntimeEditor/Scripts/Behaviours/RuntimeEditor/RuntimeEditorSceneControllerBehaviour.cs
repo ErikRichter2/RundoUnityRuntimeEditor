@@ -39,7 +39,7 @@ namespace Rundo.RuntimeEditor.Behaviours
         private readonly Dictionary<Camera, Vector3> _defaultCameraPosition = new Dictionary<Camera, Vector3>();
         private readonly Dictionary<Camera, Vector3> _defaultCameraRotation = new Dictionary<Camera, Vector3>();
 
-        public readonly CommandProcessor CommandProcessor = new CommandProcessor();
+        private readonly CommandProcessor _commandProcessor = new CommandProcessor();
         public readonly EventDispatcher UiEvents = new EventDispatcher();
         
         public bool IsEditorMode { get; private set; }
@@ -208,7 +208,7 @@ namespace Rundo.RuntimeEditor.Behaviours
             _dataScene = dataScene;
             _dataSceneMetaData = _dataScene?.DataSceneMetaData ?? default;
 
-            CommandProcessor.ClearUndoRedo();
+            _commandProcessor.ClearUndoRedo();
             
             _dataScene?.SetCommandProcessor(CommandProcessor);
             
@@ -225,7 +225,7 @@ namespace Rundo.RuntimeEditor.Behaviours
 
         public async Task<PrefabIdBehaviour> LoadPrefab(TGuid<TPrefabId> prefabId)
         {
-            //await Task.Yield();
+            await Task.Yield();
             return RuntimeEditor.GetPrefab(prefabId);
         }
 
@@ -237,7 +237,7 @@ namespace Rundo.RuntimeEditor.Behaviours
 
         public CommandProcessor GetCommandProcessor()
         {
-            return CommandProcessor;
+            return _commandProcessor;
         }
 
         public EventDispatcher GetUiEventDispatcher()

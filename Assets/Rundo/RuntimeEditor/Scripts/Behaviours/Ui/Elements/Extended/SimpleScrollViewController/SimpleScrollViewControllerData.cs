@@ -46,29 +46,7 @@ namespace Rundo.RuntimeEditor.Behaviours
         private int _prevSelectedIndex;
         public List<int> SelectedIndexes { get; } = new List<int>();
 
-        public void SelectIndex(int index)
-        {
-            bool isShift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-            bool isCtrl = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl);
-            
-            if (isShift)
-            {
-                for (var i = _prevSelectedIndex; i <= index; ++i)
-                {
-                    if (SelectedIndexes.Contains(i) == false)
-                        if (IsInstantiatedAtIndex(i) && IsInvisibleAtIndex(i) == false)
-                            SelectedIndexes.Add(i);
-                }
-            }
-            else
-            {
-                AddSelectionToList(SelectedIndexes, index, isCtrl);
-            }
-
-            _prevSelectedIndex = index;
-        }
-        
-        private void AddSelectionToList<T>(List<T> selection, T item, bool isCtrl)
+        private void AddSelectionToList(List<T> selection, T item, bool isCtrl)
         {
             if (isCtrl)
             {

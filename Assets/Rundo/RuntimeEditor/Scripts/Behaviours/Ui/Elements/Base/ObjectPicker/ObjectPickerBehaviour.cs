@@ -19,7 +19,6 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
         [SerializeField] private Button _picker;
         [SerializeField] private Button _input;
 
-        private IDataComponentReference _value;
         private Type _referenceType;
         private Action<UiDataMapperElementValue<IDataComponentReference>> _onSubmit;
 
@@ -41,7 +40,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
 
             _input.onClick.AddListener(() =>
             {
-                var go = _value.GetDataGameObject(DataScene);
+                var go = Value.GetDataGameObject(DataScene);
                 if (go != null)
                 {
                     RuntimeEditorController.SelectionBehaviour.ClearSelection();
@@ -67,14 +66,12 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
 
         public override void SetValue(IDataComponentReference value)
         {
-            _value = value;
+            Value = value;
             string goName = value.GetDataGameObject(DataScene)?.Name;
             if (string.IsNullOrEmpty(goName))
                 goName = "(none)";
             _object.SetValue(goName);
         }
-
-        public IDataComponentReference Value => _value;
 
         public void SetReferenceType(Type type)
         {

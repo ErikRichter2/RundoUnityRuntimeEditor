@@ -153,7 +153,7 @@ namespace Rundo.Core.Data
                     RundoEngine.DataSerializer.DeserializeObject<ClipboardDataBase>(GUIUtility
                         .systemCopyBuffer);
             }
-            catch (Exception _)
+            catch (Exception)
             {
                 return null;
             }

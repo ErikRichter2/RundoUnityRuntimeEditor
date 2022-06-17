@@ -7,8 +7,6 @@ namespace Rundo.RuntimeEditor.Behaviours
     [RequireComponent(typeof(InputFieldBehaviour))]
     public abstract class InputFieldGenericValueBehaviour<TValue> : UiDataMapperElementBehaviour<TValue>
     {
-        public abstract TValue Value { get; }
-        
         private bool _isPointerDown;
         private Vector2 _pointerDownMousePosition;
         private Vector2 _prevFrameMousePosition;

@@ -13,7 +13,9 @@ namespace Rundo.RuntimeEditor.Data
             return typeof(DataComponent).IsAssignableFrom(objectType);
         }
 
+#nullable enable
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+#nullable disable
         {
             throw new NotImplementedException();
         }
@@ -26,8 +28,6 @@ namespace Rundo.RuntimeEditor.Data
                 return null;
 
             var jObject = JObject.Load(reader);
-            
-            string dataTypeId = null;
             
             var dataComponent = (DataComponent)RundoEngine.DataFactory.Instantiate(objectType, jObject, null);
             RundoEngine.DataSerializer.Populate(serializer, jObject, dataComponent);

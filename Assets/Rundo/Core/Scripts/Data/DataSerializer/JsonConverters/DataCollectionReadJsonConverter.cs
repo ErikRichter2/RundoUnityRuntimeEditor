@@ -12,7 +12,9 @@ namespace Rundo.Core.Data
             return typeof(IDataCollection).IsAssignableFrom(objectType);
         }
 
+#nullable enable
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+#nullable disable
         {
             throw new NotImplementedException();
         }

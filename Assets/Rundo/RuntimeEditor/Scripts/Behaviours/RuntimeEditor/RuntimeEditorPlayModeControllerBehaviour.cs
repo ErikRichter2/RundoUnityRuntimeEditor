@@ -61,7 +61,7 @@ namespace Rundo.RuntimeEditor.Behaviours
 
         public async Task<PrefabIdBehaviour> LoadPrefab(TGuid<TPrefabId> prefabId)
         {
-            //await Task.Yield();
+            await Task.Yield();
             return RuntimeEditor.GetPrefab(prefabId);
         }
 

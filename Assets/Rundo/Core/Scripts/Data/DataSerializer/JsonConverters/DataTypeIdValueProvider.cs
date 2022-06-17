@@ -26,9 +26,16 @@ namespace Rundo.Core.Data
             return property;
         }
 
-        public void SetValue(object target, object? value) {}
+#nullable enable
+        public void SetValue(object target, object? value)
+#nullable disable
+        {
+            
+        }
 
+#nullable enable
         public object? GetValue(object target)
+#nullable disable
         {
             return _dataTypeId;
         }
