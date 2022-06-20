@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace Rundo.Core.EventSystem
+namespace Rundo.Core.Events
 {
     public class EventListener : IEventListener
     {
-        protected readonly IEventDispatcher _commandDispatcher;
+        protected readonly IEventSystem _commandDispatcher;
         protected readonly Action _parameterlessListener;
         protected readonly Type _type;
         
@@ -15,7 +15,7 @@ namespace Rundo.Core.EventSystem
             Priority = priority;
         }
 
-        public EventListener(IEventDispatcher commandDispatcher, Type type, Action listener)
+        public EventListener(IEventSystem commandDispatcher, Type type, Action listener)
         {
             _type = type;
             _parameterlessListener = listener;
@@ -70,14 +70,14 @@ namespace Rundo.Core.EventSystem
         private readonly T _data;
         private readonly bool _isDataSet;
 
-        public EventListener(IEventDispatcher commandDispatcher, Action<T> listener, T data) : base(commandDispatcher, typeof(T), null)
+        public EventListener(IEventSystem commandDispatcher, Action<T> listener, T data) : base(commandDispatcher, typeof(T), null)
         {
             _isDataSet = true;
             _data = data;
             _listener = listener;
         }
         
-        public EventListener(IEventDispatcher commandDispatcher, Action<T> listener) : base(commandDispatcher, typeof(T), null)
+        public EventListener(IEventSystem commandDispatcher, Action<T> listener) : base(commandDispatcher, typeof(T), null)
         {
             _listener = listener;
         }

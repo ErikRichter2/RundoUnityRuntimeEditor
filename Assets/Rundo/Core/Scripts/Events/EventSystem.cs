@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Rundo.Core.EventSystem
+namespace Rundo.Core.Events
 {
     /**
      * Standard implementation of ICommandDispatcher.
      */
-    public class EventDispatcher : IEventDispatcher
+    public class EventSystem : IEventSystem
     {
         /**
          * These callbacks are dispatched even when the command was not processed - to force UI/world redraw.
@@ -28,7 +28,7 @@ namespace Rundo.Core.EventSystem
          * want to listen to all commands from all levels - we have a editor-context dispatcher which is then injected
          * to each workspace (level) dispatcher.
          */
-        private readonly List<IEventDispatcher> _externalDispatchers = new List<IEventDispatcher>();
+        private readonly List<IEventSystem> _externalDispatchers = new List<IEventSystem>();
 
         public IEventListener Register(Type type, Action listener)
         {
@@ -143,14 +143,14 @@ namespace Rundo.Core.EventSystem
                 externalDispatcher.Dispatch(data, wasProcessed);
         }
 
-        public void AddExternalDispatcher(IEventDispatcher dispatcher)
+        public void AddExternalEventSystem(IEventSystem dispatcher)
         {
             if (_externalDispatchers.Contains(dispatcher))
                 return;
             _externalDispatchers.Add(dispatcher);
         }
         
-        public void UnregisterAllListeners()
+        public void UnregisterAll()
         {
             _listeners.Clear();
             _listenersOnlyWhenProcessed.Clear();

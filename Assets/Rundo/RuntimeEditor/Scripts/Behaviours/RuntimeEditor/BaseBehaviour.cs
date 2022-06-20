@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using Rundo.Core.Commands;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 using Rundo.RuntimeEditor.Data;
 using UnityEngine;
 
@@ -30,9 +30,9 @@ namespace Rundo.RuntimeEditor.Behaviours
         [JsonIgnore]
         public ICommandProcessor CommandProcessor => BaseDataProvider?.GetCommandProcessor();
         [JsonIgnore]
-        protected IEventDispatcher CommandDispatcher => CommandProcessor?.EventDispatcher;
+        protected IEventSystem CommandDispatcher => CommandProcessor?.EventDispatcher;
         [JsonIgnore]
-        protected EventDispatcher UiEventsDispatcher => BaseDataProvider?.GetUiEventDispatcher();
+        protected EventSystem UiEventsDispatcher => BaseDataProvider?.GetUiEventDispatcher();
     
         private readonly List<IEventListener> _eventListeners = new List<IEventListener>();
         

@@ -1,4 +1,4 @@
-﻿namespace Rundo.Core.EventSystem
+﻿namespace Rundo.Core.Events
 {
     public interface IEventListener
     {

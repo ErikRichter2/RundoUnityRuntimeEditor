@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Rundo.Core.EventSystem
+namespace Rundo.Core.Events
 {
     /**
      * Handles command events - each command generates events which are dispatched through implementation of this
@@ -18,7 +18,7 @@ namespace Rundo.Core.EventSystem
      * We can also listen to a command itself - RegisterCommandListener<ModifySerializedData<LaserSessionData>>, which
      * will dispatch the command data (if we want to compare current data state with previous data state for example).
      */
-    public interface IEventDispatcher
+    public interface IEventSystem
     {
         void Dispatch(object data, bool wasProcessed);
         IEventListener Register(Type type, Action listener);
@@ -26,11 +26,11 @@ namespace Rundo.Core.EventSystem
         IEventListener Register<T>(Action<T> listener);
         IEventListener Register<T>(Action<T> listener, T data);
         void Unregister(IEventListener listener);
-        void AddExternalDispatcher(IEventDispatcher dispatcher);
+        void AddExternalEventSystem(IEventSystem dispatcher);
         IEventListener Register<T>(Action<T> callback, bool onlyWhenProcessed);
         void Unregister(Action listener);
         void Unregister<T>(Action<T> callback);
-        void UnregisterAllListeners();
+        void UnregisterAll();
     }
 }
 

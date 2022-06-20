@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Rundo.Core.Commands;
 using Rundo.Core.Data;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 using Rundo.Core.Utils;
 using Rundo.RuntimeEditor.Data;
 using UnityEngine;
@@ -15,7 +15,7 @@ namespace Rundo.RuntimeEditor.Behaviours
     public interface IBaseDataProviderBehaviour
     {
         CommandProcessor GetCommandProcessor();
-        EventDispatcher GetUiEventDispatcher();
+        EventSystem GetUiEventDispatcher();
         DataScene GetDataScene();
         Task<PrefabIdBehaviour> LoadPrefab(TGuid<TPrefabId> prefabId);
         void PostprocessGameObject(GameObject gameObject);

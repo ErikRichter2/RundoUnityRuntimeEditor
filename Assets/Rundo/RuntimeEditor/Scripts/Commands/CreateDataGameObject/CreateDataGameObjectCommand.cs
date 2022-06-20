@@ -7,13 +7,12 @@ namespace Rundo.RuntimeEditor.Commands
 {
     public class CreateDataGameObjectCommand : DataCommand<DataScene>
     {
-        public static void Process(DataScene dataScene, DataGameObject dataGameObject, IDataGameObjectContainer parent)
+        public static void Process(DataScene dataScene, DataGameObject dataGameObject, IDataGameObjectContainer parent = null)
         {
             if (dataGameObject == null)
                 return;
 
-            if (parent == null)
-                throw new Exception($"Parent must be defined, is null");
+            parent ??= dataScene;
             
             new CreateDataGameObjectCommand(dataScene, dataGameObject, parent).Process();
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 
 namespace Rundo.Core.Commands
 {
@@ -10,8 +10,8 @@ namespace Rundo.Core.Commands
         
         public ICommandProcessor CommandProcessor { get; set; }
 
-        private IEventDispatcher _eventDispatcher;
-        public IEventDispatcher EventDispatcher
+        private IEventSystem _eventDispatcher;
+        public IEventSystem EventDispatcher
         {
             get => _eventDispatcher ?? CommandProcessor?.EventDispatcher;
             set => _eventDispatcher = value;

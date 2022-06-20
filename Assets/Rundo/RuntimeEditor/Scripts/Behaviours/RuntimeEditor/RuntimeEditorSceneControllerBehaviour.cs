@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Rundo.Core.Commands;
 using Rundo.Core.Data;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 using Rundo.RuntimeEditor.Behaviours.UI;
 using Rundo.RuntimeEditor.Data;
 using UnityEngine;
@@ -40,7 +40,7 @@ namespace Rundo.RuntimeEditor.Behaviours
         private readonly Dictionary<Camera, Vector3> _defaultCameraRotation = new Dictionary<Camera, Vector3>();
 
         private readonly CommandProcessor _commandProcessor = new CommandProcessor();
-        public readonly EventDispatcher UiEvents = new EventDispatcher();
+        public readonly EventSystem UiEvents = new EventSystem();
         
         public bool IsEditorMode { get; private set; }
 
@@ -240,7 +240,7 @@ namespace Rundo.RuntimeEditor.Behaviours
             return _commandProcessor;
         }
 
-        public EventDispatcher GetUiEventDispatcher()
+        public EventSystem GetUiEventDispatcher()
         {
             return UiEvents;
         }

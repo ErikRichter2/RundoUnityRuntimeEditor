@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Rundo.Core.Data;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 using Rundo.RuntimeEditor.Data;
 using UnityEngine;
 
@@ -39,7 +39,7 @@ namespace Rundo.RuntimeEditor.Behaviours
         {
         }
 
-        public void DispatchEvent(IEventDispatcher eventDispatcher, bool wasProcessed)
+        public void DispatchEvent(IEventSystem eventDispatcher, bool wasProcessed)
         {
             eventDispatcher.Dispatch(DataComponent, wasProcessed);
         }

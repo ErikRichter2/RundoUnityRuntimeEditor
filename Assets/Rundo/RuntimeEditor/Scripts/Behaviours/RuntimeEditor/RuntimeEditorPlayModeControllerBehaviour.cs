@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Rundo.Core.Commands;
 using Rundo.Core.Data;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 using Rundo.Core.Utils;
 using Rundo.RuntimeEditor.Data;
 using UnityEngine;
@@ -19,14 +19,14 @@ namespace Rundo.RuntimeEditor.Behaviours
         private Action _onExitPlayMode;
         private DataScene _dataScene;
         private CommandProcessor _commandProcessor;
-        private EventDispatcher _uiEventDispatcher;
+        private EventSystem _uiEventDispatcher;
 
         public virtual void SetData(DataScene dataScene, Action onExitPlayMode)
         {
             _dataScene = dataScene;
             _onExitPlayMode = onExitPlayMode;
             _commandProcessor = new CommandProcessor();
-            _uiEventDispatcher = new EventDispatcher();
+            _uiEventDispatcher = new EventSystem();
             _uiEventDispatcher.Register<OnExitPlayModeEvent>(StopPlayScene);
 
             Init();
@@ -74,7 +74,7 @@ namespace Rundo.RuntimeEditor.Behaviours
             return _commandProcessor;
         }
 
-        public EventDispatcher GetUiEventDispatcher()
+        public EventSystem GetUiEventDispatcher()
         {
             return _uiEventDispatcher;
         }

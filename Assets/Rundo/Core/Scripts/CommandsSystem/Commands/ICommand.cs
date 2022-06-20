@@ -1,5 +1,5 @@
 ﻿using System;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 
 namespace Rundo.Core.Commands
 {
@@ -12,7 +12,7 @@ namespace Rundo.Core.Commands
         void AddDispatcherType(Type type);
         
         ICommandProcessor CommandProcessor { get; set; }
-        IEventDispatcher EventDispatcher { get; set; }
+        IEventSystem EventDispatcher { get; set; }
     }
 }
 

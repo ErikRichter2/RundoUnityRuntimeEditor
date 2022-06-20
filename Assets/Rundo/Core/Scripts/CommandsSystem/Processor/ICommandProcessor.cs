@@ -1,4 +1,4 @@
-﻿using Rundo.Core.EventSystem;
+﻿using Rundo.Core.Events;
 
 namespace Rundo.Core.Commands
 {
@@ -8,7 +8,7 @@ namespace Rundo.Core.Commands
      */
     public interface ICommandProcessor
     {
-        IEventDispatcher EventDispatcher { get; }
+        IEventSystem EventDispatcher { get; }
         bool CanProcess();
         void AddUndoRedoData(ICommand redoData, ICommand undoData);
         void Undo();

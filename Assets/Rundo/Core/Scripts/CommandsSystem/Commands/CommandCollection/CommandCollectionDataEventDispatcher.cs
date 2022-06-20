@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 
 namespace Rundo.Core.Commands
 {
-    public class CommandCollectionDataEventDispatcher : EventDispatcher
+    public class CommandCollectionDataEventDispatcher : EventSystem
     {
         private readonly List<(object, bool)> _dataToDispatch = new List<(object, bool)>();
         
-        public void DispatchThroughDispatcher(IEventDispatcher dispatcher)
+        public void DispatchThroughDispatcher(IEventSystem dispatcher)
         {
             foreach (var data in _dataToDispatch)
                 dispatcher.Dispatch(data.Item1, data.Item2);

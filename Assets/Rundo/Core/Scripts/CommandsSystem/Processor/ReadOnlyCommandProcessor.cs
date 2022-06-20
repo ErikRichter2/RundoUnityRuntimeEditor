@@ -1,5 +1,5 @@
 ﻿using System;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 
 namespace Rundo.Core.Commands
 {
@@ -26,7 +26,7 @@ namespace Rundo.Core.Commands
             throw new NotImplementedException();
         }
 
-        public IEventDispatcher EventDispatcher { get; }
+        public IEventSystem EventDispatcher { get; }
 
         public bool CanProcess()
         {

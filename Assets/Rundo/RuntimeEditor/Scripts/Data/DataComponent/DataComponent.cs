@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Rundo.Core.Data;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 using Rundo.RuntimeEditor.Behaviours;
 using Rundo.Core.Utils;
 using UnityEngine;
@@ -147,7 +147,7 @@ namespace Rundo.RuntimeEditor.Data
             RundoEngine.DataSerializer.PopulateObject(obj, _componentData);
         }
 
-        public void DispatchEvent(IEventDispatcher eventDispatcher, bool wasProcessed)
+        public void DispatchEvent(IEventSystem eventDispatcher, bool wasProcessed)
         {
             eventDispatcher.Dispatch(this, wasProcessed);
         }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Rundo.Core.EventSystem;
+using Rundo.Core.Events;
 using UnityEngine;
 
 namespace Rundo.Core.Commands
@@ -13,7 +13,7 @@ namespace Rundo.Core.Commands
         private readonly List<List<(ICommand Undo, ICommand Redo)>> _redoList = new List<List<(ICommand Undo, ICommand Redo)>>();
 
         private int _lastFrame;
-        public IEventDispatcher EventDispatcher { get; protected set; } = new EventDispatcher();
+        public IEventSystem EventDispatcher { get; protected set; } = new EventSystem();
         
         public void AddUndoRedoData(ICommand redoData, ICommand undoData)
         {
@@ -82,7 +82,7 @@ namespace Rundo.Core.Commands
         public void Destroy()
         {
             ClearUndoRedo();
-            EventDispatcher.UnregisterAllListeners();
+            EventDispatcher.UnregisterAll();
         }
 
         public void Process(ICommand command)
