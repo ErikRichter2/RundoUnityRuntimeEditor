@@ -12,7 +12,7 @@ Rundo is a simple yet powerfull runtime editor made in Unity which allows for us
 - **Inspector** - system to draw UI elements for any object and its serializable fields/properties. Supports multi-edit (draws the same fields/properties over the set of objects). Supports Undo system and customization.
 - **Unlimited UI/UX customization** - thanks to runtime environment, Rundo editor is not bounded by some predefined layout system. You can create any UI/UX over the underlaying data model. Rundo editor by default provides implementations of Inspector, Hierarchy and a Project windows.
 
-#Overview
+# Overview
 
 ## Unity Objects Data Wrappers
 
@@ -128,15 +128,15 @@ public class MeshColorSetterBehaviour : DataComponentMonoBehaviour
 ```
 Rundo Editor searches for the types with `[DataComponent]` attribute across the assemblies and shows them in the inspector in the Add Component dropdown.
 
-![Add Component dropdown](/Assets/rundo-doc-components-dropdown.png)
+![Add Component dropdown](./Assets/rundo-doc-components-dropdown.png)
 
 Inspector now shows this component
 
-![Component Inspector](/Assets/rundo-doc-components-inspector.png)
+![Component Inspector](./Assets/rundo-doc-components-inspector.png)
 
 We can change the color and use Undo/Redo
 
-![Apply color change](/Assets/rundo-doc-components-video.mp4)
+![Apply color change](./Assets/rundo-doc-components-video.mp4)
 
 Even though the component data is kept separated from the component itself, it all works seamless.
 
