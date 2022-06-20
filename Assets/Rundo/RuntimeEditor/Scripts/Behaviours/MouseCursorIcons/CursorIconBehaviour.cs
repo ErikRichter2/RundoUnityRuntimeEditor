@@ -1,4 +1,5 @@
 ﻿using Rundo.RuntimeEditor.Data;
+using Rundo.RuntimeEditor.Factory;
 using UnityEngine;
 
 namespace Rundo.RuntimeEditor.Behaviours
@@ -32,12 +33,7 @@ namespace Rundo.RuntimeEditor.Behaviours
         public void ShowMouseIcon(string icon)
         {
             HideMouseIcon();
-            var prefab = Resources.Load<RectTransform>($"Rundo/Ui/CursorIcons/{icon}");
-            if (prefab != null)
-            {
-                _activeIcon = Instantiate(prefab, transform);
-                _activeIcon.gameObject.SetActive(true);
-            }
+            _activeIcon = UiFactory.DrawMouseIcon(icon, transform);
         }
 
         public void HideMouseIcon()

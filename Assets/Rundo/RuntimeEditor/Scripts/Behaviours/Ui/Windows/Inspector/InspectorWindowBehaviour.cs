@@ -50,7 +50,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
             foreach (Transform child in _dynamicContent.transform)
                 Destroy(child.gameObject);
 
-            InspectorFactory.DrawInspector(UiDataMapper.DataHandler, _dynamicContent);
+            UiFactory.DrawInspector(UiDataMapper.DataHandler, _dynamicContent);
         }
 
     }    

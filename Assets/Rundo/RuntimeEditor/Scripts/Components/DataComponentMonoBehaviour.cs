@@ -11,7 +11,7 @@ namespace Rundo.RuntimeEditor.Behaviours
         [JsonIgnore]
         public IParentable Parent { get; set; }
 
-        [JsonIgnore] public bool IsRuntimeOnlyComponent;
+        [JsonIgnore] public bool IsDataOnlyComponent = true;
         [JsonIgnore] public DataComponent DataComponent;
         [JsonIgnore] public DataGameObject DataGameObject;
 

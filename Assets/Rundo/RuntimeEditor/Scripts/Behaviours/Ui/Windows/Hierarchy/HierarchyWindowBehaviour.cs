@@ -3,6 +3,7 @@ using Rundo.Core.Data;
 using Rundo.RuntimeEditor.Behaviours.UI;
 using Rundo.RuntimeEditor.Commands;
 using Rundo.RuntimeEditor.Data;
+using Rundo.RuntimeEditor.Factory;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -161,9 +162,7 @@ namespace Rundo.RuntimeEditor.Behaviours
 
         public void OnRightClick()
         {
-            var prefab = Resources.Load<ContextMenuBehaviour>("Rundo/Ui/ContextMenu/ContextMenuPrefab");
-            var instance = Instantiate(prefab, GetComponentInParent<Canvas>().transform);
-            instance
+            UiFactory.DrawContextMenu(GetComponentInParent<Canvas>().transform)
                 .AddItemData(new ContextMenuItemData<object>
                 {
                     Name = "Add Empty GO",

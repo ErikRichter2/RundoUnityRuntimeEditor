@@ -125,7 +125,7 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
             if (UiElementsContent == null)
                 throw new Exception($"Need to call SetUiElementsContent() before Create");
             
-            var element = InspectorFactory.InstantiatePrimitive(valueType, label);
+            var element = UiFactory.InstantiatePrimitive(valueType, label);
             
             if (element == null)
                 return null;
@@ -165,7 +165,7 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
             if (UiElementsContent == null)
                 throw new Exception($"Need to call SetUiElementsContent() before Create");
             
-            var instance = InspectorFactory.Button(label);
+            var instance = UiFactory.Button(label);
             
             if (instance == null)
                 return null;

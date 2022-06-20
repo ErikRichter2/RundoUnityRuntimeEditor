@@ -125,7 +125,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
                     var dataHandler = new DataHandler(UiDataMapper.DataHandler.CommandProcessor);
                     dataHandler.SetRootDataList(data);
                     
-                    InspectorFactory.DrawInspector(dataHandler, _componentsContent.transform, false);
+                    UiFactory.DrawInspector(dataHandler, _componentsContent.transform, false);
                 }
             }
 

@@ -10,7 +10,7 @@ using Object = UnityEngine.Object;
 
 namespace Rundo.RuntimeEditor.Factory
 {
-    public static class InspectorFactory
+    public static class UiFactory
     {
         private static string _resourcePath = "Rundo/Ui/Inspector";
         private static string _resourcePathPrimitives = $"{_resourcePath}/Primitives";
@@ -225,6 +225,26 @@ namespace Rundo.RuntimeEditor.Factory
                     return inspectorObjectInstance.GameObject;
                 }
             }
+        }
+
+        public static ContextMenuBehaviour DrawContextMenu(Transform parent)
+        {
+            var prefab = Resources.Load<ContextMenuBehaviour>("Rundo/Ui/ContextMenu/ContextMenuPrefab");
+            var instance = Object.Instantiate(prefab, parent);
+            return instance;
+        }
+
+        public static RectTransform DrawMouseIcon(string icon, Transform parent)
+        {
+            var prefab = Resources.Load<RectTransform>($"Rundo/Ui/CursorIcons/{icon}");
+            if (prefab != null)
+            {
+                var res = Object.Instantiate(prefab, parent);
+                res.gameObject.SetActive(true);
+                return res;
+            }
+
+            return null;
         }
     }    
 }

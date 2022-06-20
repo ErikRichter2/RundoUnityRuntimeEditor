@@ -93,7 +93,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
                         continue;
                     }
                     
-                    _defaultElements.Add((memberInfo.Name, InspectorFactory.DrawInspector(data, _content)));
+                    _defaultElements.Add((memberInfo.Name, UiFactory.DrawInspector(data, _content)));
                 }
             }
                     

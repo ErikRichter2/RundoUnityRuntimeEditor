@@ -49,8 +49,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
             
             _headerOptions.onClick.AddListener(() =>
             {
-                var prefab = Resources.Load<ContextMenuBehaviour>("Rundo/Ui/ContextMenuPrefab");
-                var instance = Instantiate(prefab, GetComponentInParent<Canvas>().transform);
+                var contextMenu = UiFactory.DrawContextMenu(GetComponentInParent<Canvas>().transform);
 
                 var canPasteClipboardAsNew = Clipboard.IsType<DataComponent>();
                 var canPasteClipboardAsValues = false;
@@ -60,7 +59,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
                     clipboardComponent.GetComponentType() == ((DataComponent)UiDataMapper.DataHandler.GetRootData()[0]).GetComponentType())
                     canPasteClipboardAsValues = true;
 
-                instance
+                contextMenu
                     .AddItemData(new ContextMenuItemData<object>
                     {
                         Name = "Remove",
@@ -138,7 +137,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
                 return;
             
             var dataHandler = UiDataMapper.DataHandler.Copy().AddMember(nameof(DataComponent.ComponentData));
-            InspectorFactory.DrawInspector(dataHandler, _content, false);
+            UiFactory.DrawInspector(dataHandler, _content, false);
 
             GetComponentInParent<CanvasRebuilderBehaviour>()?.Rebuild();
         }

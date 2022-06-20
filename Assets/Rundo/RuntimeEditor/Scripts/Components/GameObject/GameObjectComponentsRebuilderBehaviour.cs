@@ -111,14 +111,14 @@ namespace Rundo.RuntimeEditor.Behaviours
                     {
                         dataComponentMonoBehaviour.DataGameObject = DataGameObject;
                         dataComponentMonoBehaviour.DataComponent = it;
-                        dataComponentMonoBehaviour.IsRuntimeOnlyComponent = true;
+                        dataComponentMonoBehaviour.IsDataOnlyComponent = false;
                     }
                     else
                     {
                         var member = ReflectionUtils.GetMemberInfo(componentInstance.GetType(),
-                            nameof(DataComponentMonoBehaviour.IsRuntimeOnlyComponent));
+                            nameof(DataComponentMonoBehaviour.IsDataOnlyComponent));
                         if (member != null)
-                            ReflectionUtils.SetValue(componentInstance, member, true);
+                            ReflectionUtils.SetValue(componentInstance, member, false);
 
                         member = ReflectionUtils.GetMemberInfo(componentInstance.GetType(),
                             nameof(DataComponentMonoBehaviour.DataComponent));

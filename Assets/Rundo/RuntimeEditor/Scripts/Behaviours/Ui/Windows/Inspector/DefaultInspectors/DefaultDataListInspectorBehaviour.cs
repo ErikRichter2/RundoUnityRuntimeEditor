@@ -158,7 +158,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
             }
             
             var dataHandler = UiDataMapper.DataHandler.Copy().AddListElement(index);
-            InspectorFactory.DrawInspector(dataHandler, itemContent.Content, false);
+            UiFactory.DrawInspector(dataHandler, itemContent.Content, false);
         }
     }
 }

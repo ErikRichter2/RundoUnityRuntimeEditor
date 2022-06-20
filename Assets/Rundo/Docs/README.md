@@ -16,6 +16,26 @@ Rundo is a simple yet powerfull runtime editor made in Unity which allows for us
 
 # Quick Guide
 
+### Components
+
+You can use your own custom Unity Components - just add `[DataComponent]` and `[DataTypeId]` class attributes - use some random generated guid value (more about this attributes later in the docs):
+
+```
+[DataComponent]
+[DataTypeId("eb547514-352e-488a-a927-bcc671ce7f43")]
+public class ExampleBehaviour : MonoBehaviour
+{
+    public int Foo;
+    public string Boo;
+}
+```
+And you can start using this component in the editor:
+
+![Intro Components](./Assets/rundo-doc-intro-components.gif)
+
+
+### Inspector
+
 # Technical documentation
 
 

@@ -14,8 +14,11 @@ namespace Rundo.RuntimeEditor.Behaviours
             set
             {
                 _name = value;
-                if (IsRuntimeOnlyComponent)
-                    gameObject.name = _name;
+                
+                if (IsDataOnlyComponent)
+                    return;
+                
+                gameObject.name = _name;
             }
         }
 
@@ -26,8 +29,11 @@ namespace Rundo.RuntimeEditor.Behaviours
             set
             {
                 _isActive = value;
-                if (IsRuntimeOnlyComponent)
-                    gameObject.SetActive(_isActive);
+                
+                if (IsDataOnlyComponent)
+                    return;
+                
+                gameObject.SetActive(_isActive);
             }
         }
     }
