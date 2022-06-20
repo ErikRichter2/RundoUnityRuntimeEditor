@@ -12,7 +12,13 @@ Rundo is a simple yet powerfull runtime editor made in Unity which allows for us
 - **Inspector** - system to draw UI elements for any object and its serializable fields/properties. Supports multi-edit (draws the same fields/properties over the set of objects). Supports Undo system and customization.
 - **Unlimited UI/UX customization** - thanks to runtime environment, Rundo editor is not bounded by some predefined layout system. You can create any UI/UX over the underlaying data model. Rundo editor by default provides implementations of Inspector, Hierarchy and a Project windows.
 
-# Overview
+![Intro](./Assets/rundo-doc-intro.gif)
+
+# Quick Guide
+
+# Technical documentation
+
+
 
 ## Unity Objects Data Wrappers
 
@@ -474,5 +480,3 @@ var dataExample = RundoEngine.DataFactory.Instantiate<DataExample>();
 dataExample.Model.Validate();
 ```
 
-## UI -> Data mapper
- 
