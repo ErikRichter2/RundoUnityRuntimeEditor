@@ -136,7 +136,7 @@ Inspector now shows this component
 
 We can change the color and use Undo/Redo
 
-![Apply color change](./Assets/rundo-doc-components-video.mp4)
+![Apply color change](./Assets/rundo-doc-components-video.gif)
 
 Even though the component data is kept separated from the component itself, it all works seamless.
 
