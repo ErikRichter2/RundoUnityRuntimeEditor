@@ -20,15 +20,13 @@ namespace Rundo.RuntimeEditor.Behaviours
             GetComponent<TMP_Dropdown>().onValueChanged.AddListener(value => { onSubmit(new UiDataMapperElementValue<int>(value)); });
         }
 
-        public override void SetValue(int value)
+        protected override void SetValueInternal(int value)
         {
-            IsUndefValue = false;
             GetComponent<TMP_Dropdown>().SetValueWithoutNotify(value);
         }
 
-        public override void SetUndefValue()
+        protected override void SetUndefinedValue()
         {
-            IsUndefValue = true;
             GetComponent<TMP_Dropdown>().SetValueWithoutNotify(0);
         }
         

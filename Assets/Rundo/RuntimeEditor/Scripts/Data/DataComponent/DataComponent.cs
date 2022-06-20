@@ -14,7 +14,7 @@ namespace Rundo.RuntimeEditor.Data
     {
         public DataComponentType DataComponentType;
         public DataComponentPrefab DataComponentPrefab { get; set; }
-        
+
         [JsonProperty]
         protected object _componentData;
 

@@ -9,13 +9,38 @@ namespace Rundo.RuntimeEditor.Behaviours
     {
         private Func<TValue, object> _fromUiToDataConverter;
         private Func<object, TValue> _fromDataToUiConverter;
-        
-        public virtual TValue Value { get; protected set; }
-        public bool IsUndefValue { get; set; }
+
+        private TValue _value;
+
+        public virtual TValue Value
+        {
+            get => _value;
+            set
+            {
+                _isUndefinedValue = false;
+                _value = value;
+                SetValueInternal(value);
+            }
+        }
+
+        private bool _isUndefinedValue;
+
+        public virtual bool IsUndefinedValue
+        {
+            get => _isUndefinedValue;
+            set
+            {
+                _isUndefinedValue = value;
+                if (_isUndefinedValue)
+                    SetUndefinedValue();
+            }
+        }
+
+        protected abstract void SetUndefinedValue();
 
         public abstract void OnSubmit(Action<UiDataMapperElementValue<TValue>> onSubmit);
-        public abstract void SetValue(TValue value);
-        public abstract void SetUndefValue();
+        
+        protected abstract void SetValueInternal(TValue value);
 
         public virtual void SetDynamicValue(object value)
         {
@@ -26,7 +51,7 @@ namespace Rundo.RuntimeEditor.Behaviours
                 throw new Exception($"Override {nameof(SetDynamicValue)} when implementing {nameof(IUiDataMapperDynamicValuesCustomHandler)}");
 
             if (value is TValue valueTyped)
-                SetValue(valueTyped);
+                Value = valueTyped;
             else
                 throw new Exception($"Cannot set value of type {value.GetType()}, expecting type {typeof(TValue).Name}");
         }
@@ -49,7 +74,7 @@ namespace Rundo.RuntimeEditor.Behaviours
         public void SetValue(DataHandlerValue dataHandlerValue)
         {
             if (dataHandlerValue.IsUndefined || dataHandlerValue.Value == null)
-                SetUndefValue();
+                IsUndefinedValue = true;
             else
                 SetDynamicValue(dataHandlerValue.Value);
         }

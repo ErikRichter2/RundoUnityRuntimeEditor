@@ -18,10 +18,10 @@ namespace Rundo.RuntimeEditor.Behaviours
             get => _label.text;
             set => _label.text = value;
         }
-        
-        public override void SetUndefValue()
+
+
+        protected override void SetUndefinedValue()
         {
-            IsUndefValue = true;
             _toggle.SetIsOnWithoutNotify(false);
         }
 
@@ -30,12 +30,11 @@ namespace Rundo.RuntimeEditor.Behaviours
             _toggle.onValueChanged.AddListener(value => { onSubmit(new UiDataMapperElementValue<bool>(value)); });
         }
 
-        public override void SetValue(bool value)
+        protected override void SetValueInternal(bool value)
         {
-            IsUndefValue = false;
             _toggle.SetIsOnWithoutNotify(value);
         }
-        
+
         public override void InitDefaultCssValues(CssBehaviour cssBehaviour)
         {
             cssBehaviour.SetDefaultValue(CssPropertyEnum.LabelWidth,

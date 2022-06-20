@@ -61,7 +61,7 @@ namespace Rundo.RuntimeEditor.Behaviours
             
             _dataGameObject = dataGameObject;
             
-            _gameObject = await DataScene.InstantiateGameObject(BaseDataProvider, _dataGameObject, null);
+            _gameObject = await DataScene.InstantiateGameObject(BaseDataProvider, _dataGameObject, null, true);
             _gameObject.transform.SetParent(transform, true);
             
             RuntimeEditorController.SelectionBehaviour.AddToSelectionWithoutTransformGizmo(_dataGameObject);

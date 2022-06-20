@@ -252,7 +252,7 @@ namespace Rundo.RuntimeEditor.Behaviours
 
         private void OnSelectInternal(IDropDownOption data)
         {
-            SetValueInternal(data.UniqueId);
+            Value = data.UniqueId;
             _onSubmit?.Invoke(new UiDataMapperElementValue<string>(Value));
         }
 
@@ -344,15 +344,8 @@ namespace Rundo.RuntimeEditor.Behaviours
             _onSubmit = onSubmit;
         }
 
-        public override void SetValue(string value)
+        protected override void SetValueInternal(string value)
         {
-            SetValueInternal(value);
-        }
-
-        private void SetValueInternal(string value)
-        {
-            IsUndefValue = false;
-            Value = value;
             if (DoNotOverwriteButtonLabel == false)
                 _optionsBtn.GetComponentInChildren<TextMeshProUGUI>().text = GetData(value)?.Label ?? "???";
             RefreshSelection();
@@ -371,14 +364,13 @@ namespace Rundo.RuntimeEditor.Behaviours
 
         public IDropDownOption GetCurrentValue()
         {
-            if (IsUndefValue)
+            if (IsUndefinedValue)
                 return null;
             return GetData(Value);
         }
 
-        public override void SetUndefValue()
+        protected override void SetUndefinedValue()
         {
-            IsUndefValue = true;
             _optionsBtn.GetComponentInChildren<TextMeshProUGUI>().text = "--";
         }
 
@@ -423,13 +415,13 @@ namespace Rundo.RuntimeEditor.Behaviours
         public override void SetDynamicValue(object dataValue)
         {
             if (dataValue == null)
-                SetValue(null);
+                Value = null;
             else if (dataValue is string s)
-                SetValue(s);
+                Value = s;
             else if (dataValue is Enum e)
-                SetValue(e.ToString());
+                Value = e.ToString();
             else if (dataValue is ITEnum iteEnum)
-                SetValue(iteEnum.ToStringRawValue());
+                Value = iteEnum.ToStringRawValue();
             else
                 throw new Exception($"Unhandled value type {dataValue.GetType().Name}");
         }

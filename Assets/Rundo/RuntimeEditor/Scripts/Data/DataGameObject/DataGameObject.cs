@@ -14,6 +14,9 @@ namespace Rundo.RuntimeEditor.Data
 
         [JsonIgnore]
         public bool IsDestroyed;
+
+        [JsonIgnore]
+        public bool IsRemovedFromPrefab;
         
         [JsonIgnore]
         public string Name

@@ -158,10 +158,12 @@ namespace Rundo.RuntimeEditor.Data
         public async Task<GameObject> InstantiateGameObject(
             IBaseDataProviderBehaviour dataProviderBehaviour,
             DataGameObject dataGameObject,
-            Transform parent)
+            Transform parent,
+            bool initial)
         {
-            if (dataGameObject.PrefabId.IsNullOrEmpty == false)
+            if (initial && dataGameObject.PrefabId.IsNullOrEmpty == false)
             {
+                /*
                 void ProcessDataGameObject(DataGameObject lPrefabData, DataGameObject lInstancedData)
                 {
                     lPrefabData.ObjectId = lInstancedData.ObjectId;
@@ -186,24 +188,82 @@ namespace Rundo.RuntimeEditor.Data
                     for (var i = 0; i < childCount; ++i)
                         ProcessDataGameObject(lPrefabData.Children[i], lInstancedData.Children[i]);
                 }
+*/
+                var prefabIdBehaviour = await dataProviderBehaviour.LoadPrefab(dataGameObject.PrefabId);
 
-                var prefab = await dataProviderBehaviour.LoadPrefab(dataGameObject.PrefabId);
-
-                if (prefab != null)
+                if (prefabIdBehaviour != null)
                 {
                     var dataFromPrefab =
-                        InstantiateDataGameObjectFromPrefab(prefab);
+                        InstantiateDataGameObjectFromPrefab(prefabIdBehaviour);
+                    
+                    // synchronize children
 
-                    ProcessDataGameObject(dataFromPrefab, dataGameObject);
-                
-                    dataGameObject.Children.Clear();
-                    dataGameObject.Components.Clear();
+                    var queue = new Queue<(DataGameObject, DataGameObject)>();
+                    queue.Enqueue((dataGameObject, dataFromPrefab));
 
-                    RundoEngine.DataSerializer.PopulateObject(dataFromPrefab, dataGameObject);
+                    while (queue.Count > 0)
+                    {
+                        var it = queue.Dequeue();
+                        var instance = it.Item1;
+                        var prefab = it.Item2;
+
+                        // synchronize components prefab -> instance
+                        // keep overrided components, update/remove not-overrided components
+                        SynchronizeComponents(instance, prefab);
+
+                        // add
+                        for (var i = instance.Children.Count; i < prefab.Children.Count; ++i)
+                            instance.Children.Add(RundoEngine.DataSerializer.Copy(prefab.Children[i]));
+                    
+                        // remove
+                        for (var i = prefab.Children.Count; i < instance.Children.Count; ++i)
+                            instance.Children.RemoveAt(i);
+
+                        for (var i = 0; i < instance.Children.Count; ++i)
+                            queue.Enqueue((instance.Children[i], prefab.Children[i]));
+                    }
                 }
             }
 
             return await InstantiateGameObjectFromDataGameObject(dataProviderBehaviour, dataGameObject, parent);
+        }
+
+        private void SynchronizeComponents(DataGameObject instance, DataGameObject prefab)
+        {
+            var processedComponents = new List<DataComponent>(prefab.Components);
+            
+            foreach (var component in instance.Components.ToArray())
+            {
+                if (component.DataComponentPrefab == null)
+                    continue;
+
+                var found = false;
+                
+                // find same component type in the prefab
+                foreach (var prefabComponent in processedComponents)
+                {
+                    if (prefabComponent.GetComponentType() != component.GetComponentType())
+                        continue;
+
+                    found = true;
+
+                    // copy values from prefab component to the instance component
+                    processedComponents.Remove(prefabComponent);
+
+                    if (component.IsOverriden() == false)
+                        RundoEngine.DataSerializer.PopulateObject(prefabComponent, component);
+                    
+                    break;
+                }
+
+                // mark component as removed
+                if (found == false)
+                    instance.Components.Remove(component);
+            }
+            
+            // add components from prefab
+            foreach (var prefabComponent in processedComponents)
+                instance.Components.Add(prefabComponent);
         }
 
         private async Task<GameObject> InstantiateGameObjectFromDataGameObject(

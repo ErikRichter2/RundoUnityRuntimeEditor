@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Rundo.RuntimeEditor.Behaviours
@@ -8,21 +7,19 @@ namespace Rundo.RuntimeEditor.Behaviours
     {
         public override bool IsMouseDragAvailable => true;
 
-        public override float Value
+        protected override float ValueFromString(string value)
         {
-            get
-            {
-                if (IsUndefValue)
-                    return 0f;
-                return float.Parse(GetComponent<InputFieldBehaviour>().Text);
-            }
+            return float.Parse(value);
+        }
+
+        protected override string ValueToString(float value)
+        {
+            return value.ToString();
         }
 
         protected override float GetMouseDragValue(float delta)
         {
             var stepDelta = 0.1f;
-            //if (InputFieldBehaviour.IsStepDelta)
-            //    stepDelta = InputFieldBehaviour.StepDelta;
 
             var mult = Mathf.Max(1, Mathf.Abs(delta) / 5f);
             return Value + delta * stepDelta * mult;

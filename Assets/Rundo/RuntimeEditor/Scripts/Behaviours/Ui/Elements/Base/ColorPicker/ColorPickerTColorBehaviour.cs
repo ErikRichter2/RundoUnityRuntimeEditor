@@ -20,9 +20,8 @@ namespace Rundo.RuntimeEditor.Behaviours
             };
         }
 
-        public override void SetValue(TColor value)
+        protected override void SetValueInternal(TColor value)
         {
-            IsUndefValue = false;
             ColorPickerElementBehaviour.SetColor(value);
         }
     }

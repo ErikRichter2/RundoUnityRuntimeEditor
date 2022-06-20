@@ -48,15 +48,15 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
                 }
             });
         }
-
-        public override void SetUndefValue()
-        {
-            _object.SetUndefValue();
-        }
-
+        
         public Type GetDataMapperType()
         {
             return typeof(UiDataMapperElementInstance<>).MakeGenericType(new Type[] { typeof(IDataComponentReference) });
+        }
+
+        protected override void SetUndefinedValue()
+        {
+            _object.IsUndefinedValue = true;
         }
 
         public override void OnSubmit(Action<UiDataMapperElementValue<IDataComponentReference>> onSubmit)
@@ -64,13 +64,13 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
             _onSubmit = onSubmit;
         }
 
-        public override void SetValue(IDataComponentReference value)
+        protected override void SetValueInternal(IDataComponentReference value)
         {
             Value = value;
             string goName = value.GetDataGameObject(DataScene)?.Name;
             if (string.IsNullOrEmpty(goName))
                 goName = "(none)";
-            _object.SetValue(goName);
+            _object.Value = goName;
         }
 
         public void SetReferenceType(Type type)

@@ -19,12 +19,12 @@ namespace Rundo.RuntimeEditor.Behaviours
             });
         }
 
-        public override void SetValue(TValue value)
+        protected override void SetValueInternal(TValue value)
         {
             GetComponent<TMP_InputField>().SetTextWithoutNotify(FromValueToString(value));
         }
 
-        public override void SetUndefValue()
+        protected override void SetUndefinedValue()
         {
             GetComponent<TMP_InputField>().SetTextWithoutNotify("--");
         }

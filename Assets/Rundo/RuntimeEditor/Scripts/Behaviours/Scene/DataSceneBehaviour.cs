@@ -22,18 +22,13 @@ namespace Rundo.RuntimeEditor.Behaviours
 
             if (scene != null)
                 foreach (var dataGameObject in scene.DataGameObjects)
-                    CreateEditorObject(dataGameObject, scene);
-        }
-
-        public void SetData()
-        {
-            
+                    CreateEditorObject(dataGameObject, scene, true);
         }
 
         private void OnCreateDataGameObjectCommand(CreateDataGameObjectCommand data)
         {
             if (data.Data == DataScene)
-                CreateEditorObject(data.DataGameObject, data.Parent);
+                CreateEditorObject(data.DataGameObject, data.Parent, false);
         }
     
         private void OnDestroyDataGameObjectCommand(DestroyDataGameObjectCommand data)
@@ -42,14 +37,14 @@ namespace Rundo.RuntimeEditor.Behaviours
                 DestroyEditorObject(data.DataGameObject);
         }
         
-        private async void CreateEditorObject(DataGameObject dataGameObject, IDataGameObjectContainer parent)
+        private async void CreateEditorObject(DataGameObject dataGameObject, IDataGameObjectContainer parent, bool initial)
         {
             var transformParent = transform;
             var parentGo = Find(parent);
             if (parentGo != null)
                 transformParent = parentGo.transform;
             
-            var go = await DataScene.InstantiateGameObject(BaseDataProvider, dataGameObject, transformParent);
+            var go = await DataScene.InstantiateGameObject(BaseDataProvider, dataGameObject, transformParent, initial);
 
             var queue = new Queue<GameObject>();
             queue.Enqueue(go);

@@ -1,5 +1,4 @@
 using System;
-using Rundo.Core.Data;
 using Rundo.RuntimeEditor.Data.UiDataMapper;
 using TMPro;
 using UnityEngine;
@@ -24,56 +23,22 @@ namespace Rundo.RuntimeEditor.Behaviours
             }
         }
 
-        public string Text
+        public TMP_InputField InputField => _inputField;
+
+        protected override void SetUndefinedValue()
         {
-            get => _inputField.text;
-            set => _inputField.text = value;
+            _inputField.SetTextWithoutNotify("--");
         }
 
-        public IUiDataMapperElementBehaviour<TValue> GetIUiDataMapperElementBehaviour<TValue>()
-        {
-            // int
-            if (typeof(TValue) == typeof(int))
-                return (IUiDataMapperElementBehaviour<TValue>)_inputField.gameObject.AddComponent<UiDataMapperTMPInputFieldIntElementBehaviour>();
-            
-            // float
-            if (typeof(TValue) == typeof(float))
-                return (IUiDataMapperElementBehaviour<TValue>)_inputField.gameObject.AddComponent<UiDataMapperTMPInputFieldFloatElementBehaviour>();
-
-            // string
-            if (typeof(TValue) == typeof(string))
-                return (IUiDataMapperElementBehaviour<TValue>)_inputField.gameObject.AddComponent<UiDataMapperTMPInputFieldStringElementBehaviour>();
-
-            throw new Exception($"Mapping TMP_InputField to a type {typeof(TValue).Name} is not implemented.");
-        }
-
-        public void Select()
-        {
-            
-        }
-
-        public void OnValueChanged(Action<string> onValueChanged)
-        {
-            _inputField.onValueChanged.AddListener(onValueChanged.Invoke);
-        }
-/*
-        public void OnSubmit(Action<string> onSubmit)
-        {
-            _inputField.onSubmit.AddListener(onSubmit.Invoke);
-        }
-*/
         public override void OnSubmit(Action<UiDataMapperElementValue<string>> onSubmit)
         {
             _inputField.onSubmit.AddListener((value) => onSubmit.Invoke(new UiDataMapperElementValue<string>(value)));
         }
 
-        public override void SetValue(string value)
+        protected override void SetValueInternal(string value)
         {
-            IsUndefValue = false;
             _inputField.SetTextWithoutNotify(value);
         }
-
-        public override string Value => _inputField.text;
 
         public bool ReadOnly
         {
@@ -81,11 +46,6 @@ namespace Rundo.RuntimeEditor.Behaviours
             set => _inputField.readOnly = value;
         }
 
-        public override void SetUndefValue()
-        {
-            IsUndefValue = true;
-            _inputField.SetTextWithoutNotify("--");
-        }
     }
 }
 

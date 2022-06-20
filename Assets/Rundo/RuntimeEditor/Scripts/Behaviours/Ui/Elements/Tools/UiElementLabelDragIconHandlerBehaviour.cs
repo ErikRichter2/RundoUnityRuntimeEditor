@@ -17,7 +17,9 @@ namespace Rundo.Ui
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            DispatchUiEvent(new CursorIconBehaviour.CursorIconEvent{Icon = "CursorDragIcon"});
+            var available = GetComponentInParent<IUiDataMapperElementValueChangeableByCursorDragBehaviour>()?.IsMouseDragAvailable ?? false;
+            if (available)
+                DispatchUiEvent(new CursorIconBehaviour.CursorIconEvent{Icon = "CursorDragIcon"});
         }
 
         public void OnPointerExit(PointerEventData eventData)
@@ -32,7 +34,8 @@ namespace Rundo.Ui
             {
                 _isPointerDown = true;
                 _pointerDownElement = GetComponentInParent<IUiDataMapperElementValueChangeableByCursorDragBehaviour>();
-                _pointerDownElement?.OnRaycasterPointerDown();
+                if (_pointerDownElement is { IsMouseDragAvailable: true })
+                    _pointerDownElement.OnRaycasterPointerDown();
 
                 var canvas = GetComponentInParent<Canvas>();
                 var rootCanvas = canvas.rootCanvas;
@@ -45,7 +48,8 @@ namespace Rundo.Ui
             if (_isPointerDown)
             {
                 _isPointerDown = false;
-                _pointerDownElement?.OnRaycasterPointerUp();
+                if (_pointerDownElement is { IsMouseDragAvailable: true })
+                    _pointerDownElement.OnRaycasterPointerUp();
                 _pointerDownElement = null;
                 transform.SetParent(_parent, false);
             }

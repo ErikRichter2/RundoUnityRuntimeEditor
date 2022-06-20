@@ -13,40 +13,41 @@ namespace Rundo.RuntimeEditor.Behaviours
         private TValue _pointerDownValue;
         private Action<UiDataMapperElementValue<TValue>> _onSubmitValueData;
 
-        public override void SetUndefValue()
+        protected override void SetUndefinedValue()
         {
-            GetComponent<InputFieldBehaviour>().SetUndefValue();
+            GetComponent<InputFieldBehaviour>().IsUndefinedValue = true;
         }
-        
+
         public override void OnSubmit(Action<UiDataMapperElementValue<TValue>> onSubmit)
         {
             _onSubmitValueData = onSubmit;
-            GetComponent<InputFieldBehaviour>().OnSubmit(value => InvokeSubmit(false));
+            GetComponent<InputFieldBehaviour>().OnSubmit(value =>
+            {
+                Value = ValueFromString(value.Value);
+                InvokeSubmit(false);
+            });
         }
 
-        public override void SetValue(TValue value)
+        protected override void SetValueInternal(TValue value)
         {
-            GetComponent<InputFieldBehaviour>().Text = value.ToString();
+            GetComponent<InputFieldBehaviour>().Value = ValueToString(value);
         }
+
+        protected abstract TValue ValueFromString(string value);
+        protected abstract string ValueToString(TValue value);
 
         public void OnRaycasterPointerUp()
         {
-            if (IsMouseDragAvailable == false)
-                return;
-            
             var currentValue = Value;
             _isPointerDown = false;
-            SetValue(_pointerDownValue);
+            Value = _pointerDownValue;
             InvokeSubmit(true);
-            SetValue(currentValue);
+            Value = currentValue;
             InvokeSubmit(false);
         }
 
         public void OnRaycasterPointerDown()
         {
-            if (IsMouseDragAvailable == false)
-                return;
-            
             _isPointerDown = true;
             _pointerDownMousePosition = Input.mousePosition;
             _prevFrameMousePosition = _pointerDownMousePosition;
@@ -66,7 +67,7 @@ namespace Rundo.RuntimeEditor.Behaviours
                 var delta = currentMousePos.x - _prevFrameMousePosition.x;
                 _prevFrameMousePosition = currentMousePos;
                 var newValue = GetMouseDragValue(delta);
-                SetValue(newValue);
+                Value = newValue;
                 InvokeSubmit(true);
             }
         }
