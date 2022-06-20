@@ -14,7 +14,7 @@ namespace Rundo.Core.Data
         
         public static DataModel Instantiate(Type type, object serializedData)
         {
-            var instance = (DataModel)Activator.CreateInstance(type);
+            var instance = (DataModel)RundoEngine.DataFactory.Instantiate(type);
             instance._data = serializedData;
             return instance;
         }

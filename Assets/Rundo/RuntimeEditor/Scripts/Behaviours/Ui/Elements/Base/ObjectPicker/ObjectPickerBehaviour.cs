@@ -109,7 +109,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
         public void SubmitValue(DataGameObject dataGameObject)
         {
             var type = typeof(TDataComponentReference<>).MakeGenericType(_referenceType);
-            var value = (IDataComponentReference)Activator.CreateInstance(type);
+            var value = (IDataComponentReference)RundoEngine.DataFactory.Instantiate(type);
             if (dataGameObject != null)
                 value.SetDataGameObjectId(dataGameObject.ObjectId);
             _onSubmit?.Invoke(new UiDataMapperElementValue<IDataComponentReference>(value));

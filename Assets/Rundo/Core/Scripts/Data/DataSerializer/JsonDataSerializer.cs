@@ -133,7 +133,7 @@ namespace Rundo.Core.Data
         public object CreateInstance(Type type)
         {
             if (type.IsPrimitive || ReflectionUtils.IsList(type))
-                return Activator.CreateInstance(type);
+                return RundoEngine.DataFactory.Instantiate(type);
 
             return RundoEngine.DataSerializer.DeserializeObject("{}", type);
         }

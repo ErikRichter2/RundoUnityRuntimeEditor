@@ -40,7 +40,7 @@ namespace Rundo.Core.Data
                 
             if (typeof(IStronglyTypedValueValidator<string>).IsAssignableFrom(typeof(T)))
                 Assert.IsTrue(
-                    ((IStronglyTypedValueValidator<string>) Activator.CreateInstance(typeof(T))).Validate(value));            
+                    ((IStronglyTypedValueValidator<string>)Activator.CreateInstance(typeof(T))).Validate(value));            
         }
         
         public static bool operator ==(TString<T> obj1, TString<T> obj2)

@@ -26,8 +26,8 @@ namespace Rundo.Core.Data
             if (reader.TokenType == JsonToken.Null)
                 return null;
 
-            var instance = RundoEngine.DataFactory.Instantiate(objectType, null, null);
-            IDataReference serializedDataReference = (IDataReference)Activator.CreateInstance(objectType, true);
+            var instance = RundoEngine.DataFactory.Instantiate(objectType);
+            IDataReference serializedDataReference = (IDataReference)RundoEngine.DataFactory.Instantiate(objectType);
             serializedDataReference.SetJsonValue(instance);
             return serializedDataReference;
         }     

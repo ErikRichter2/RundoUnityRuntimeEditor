@@ -19,7 +19,7 @@ namespace Rundo.Core.Commands
             var types = new Type[] {typeof(TData), child.GetType()};
             var args = new object[] {collectionOwner, child, collection, insertAt };
             var genericType = typeof(AddDataToCollectionCommand<,>).MakeGenericType(types);
-            return (AddDataToCollectionCommand)Activator.CreateInstance(genericType, args);
+            return (AddDataToCollectionCommand)RundoEngine.DataFactory.Instantiate(genericType, null, args);
         }
         
         protected AddDataToCollectionCommand(object data) : base(data) {}

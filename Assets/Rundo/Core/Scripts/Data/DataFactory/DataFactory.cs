@@ -1,25 +1,46 @@
 ﻿using System;
+using System.Globalization;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 namespace Rundo.Core.Data
 {
     public class DataFactory
     {
+        private static readonly GameObject _gameObject = new GameObject("DataComponentsCreator");
+
         public T Instantiate<T>(IParentable parent = null)
         {
             return (T)Instantiate(typeof(T), parent);
         }
 
-        public object Instantiate(Type type, IParentable parent = null)
+        public object Instantiate(Type type)
         {
-            var instance = Activator.CreateInstance(type, true);
+            return Instantiate(type, null);
+        }
+        
+        public object Instantiate(Type type, IParentable parent, params object[] args)
+        {
+            object instance = null;
+            
+            if (typeof(MonoBehaviour).IsAssignableFrom(type))
+            {
+                if (_gameObject.activeSelf)
+                    _gameObject.SetActive(false);
+                
+                instance = _gameObject.AddComponent(type);
+                Object.DestroyImmediate((MonoBehaviour)instance);
+            }
+            else
+                instance = Activator.CreateInstance(type, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, (Binder)null, args, (CultureInfo)null);
             
             if (parent != null)
                 if (instance is IParentable parentable)
                     parentable.SetParent(parent);
-            
+
             if (instance is IInstantiable instantiable)
                 instantiable.OnInstantiated();
 

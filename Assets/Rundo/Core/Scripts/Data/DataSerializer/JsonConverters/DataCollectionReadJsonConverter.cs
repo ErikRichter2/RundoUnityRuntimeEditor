@@ -26,7 +26,7 @@ namespace Rundo.Core.Data
             if (reader.TokenType == JsonToken.Null)
                 return null;
 
-            var collection = (IDataCollection)Activator.CreateInstance(objectType, true);
+            var collection = (IDataCollection)RundoEngine.DataFactory.Instantiate(objectType);
             serializer.Populate(reader, collection);
             return collection;
         }

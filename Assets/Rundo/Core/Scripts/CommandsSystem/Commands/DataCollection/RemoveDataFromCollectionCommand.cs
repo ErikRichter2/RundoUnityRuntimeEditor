@@ -15,7 +15,7 @@ namespace Rundo.Core.Commands
             var types = new [] {typeof(TData), child.GetType()};
             var args = new [] {collectionOwner, child, collectionGetter.Invoke(collectionOwner) };
             var genericType = typeof(RemoveDataFromCollectionCommand<,>).MakeGenericType(types);
-            return (RemoveDataFromCollectionCommand)Activator.CreateInstance(genericType, args);
+            return (RemoveDataFromCollectionCommand)RundoEngine.DataFactory.Instantiate(genericType, null, args);
         }
 
         protected RemoveDataFromCollectionCommand(object data) : base(data) {}

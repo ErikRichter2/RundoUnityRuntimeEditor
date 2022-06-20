@@ -101,13 +101,10 @@ namespace Rundo.RuntimeEditor.Factory
             var res = instance.gameObject.AddComponent<InputFieldStringBehaviour>();;
             res.SetValueConverter((obj) =>
             {
-                var guid = (IGuid)Activator.CreateInstance(guidType);
-                guid.SetGUID((string)obj);
+                var guid = (IGuid)RundoEngine.DataFactory.Instantiate(guidType);
+                guid.SetGUID(obj);
                 return guid;
-            }, (obj) =>
-            {
-                return ((IGuid)obj).ToStringRawValue();
-            });
+            }, (obj) => ((IGuid)obj).ToStringRawValue());
 
             return res;
         }

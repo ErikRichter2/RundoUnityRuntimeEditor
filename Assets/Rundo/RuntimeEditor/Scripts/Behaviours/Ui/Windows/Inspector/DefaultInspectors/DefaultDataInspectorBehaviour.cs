@@ -110,7 +110,7 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
             {
                 if (RedrawInspectorTypeCache.TryGetValue(_currentType, out var redrawInstance) == false)
                 {
-                    redrawInstance = Activator.CreateInstance(_currentType);
+                    redrawInstance = RundoEngine.DataFactory.Instantiate(_currentType);
                     RedrawInspectorTypeCache[_currentType] = redrawInstance;
                 }
                 

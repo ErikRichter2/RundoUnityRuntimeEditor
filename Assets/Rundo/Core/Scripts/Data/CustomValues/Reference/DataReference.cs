@@ -22,8 +22,7 @@ namespace Rundo.Core.Data
             get
             {
                 if (_valueWrapper == null)
-                    _valueWrapper = (DataReferenceValueWrapper<T>)Activator.CreateInstance(typeof(DataReferenceValueWrapper<T>),
-                        true);
+                    _valueWrapper = (DataReferenceValueWrapper<T>)RundoEngine.DataFactory.Instantiate(typeof(DataReferenceValueWrapper<T>));
                 return _valueWrapper;
             }
         }

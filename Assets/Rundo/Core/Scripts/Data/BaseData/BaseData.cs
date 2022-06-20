@@ -127,9 +127,7 @@ namespace Rundo.Core.Data
 
         public DataList<T> InstantiateList<T>()
         {
-            var serializedDataList = (DataList<T>)Activator.CreateInstance(
-                typeof(DataList<T>), true);
-            serializedDataList.SetParent(this);
+            var serializedDataList = (DataList<T>)RundoEngine.DataFactory.Instantiate(typeof(DataList<T>), this);
             return serializedDataList;
         }
 

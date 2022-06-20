@@ -77,13 +77,13 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
             if (isDataMapperWithValue)
             {
                 uiDataMapperElementInstance =
-                    (UiDataMapperElementInstance)Activator.CreateInstance(dataMapperType,
+                    (UiDataMapperElementInstance)RundoEngine.DataFactory.Instantiate(dataMapperType, null,
                         new object[] { this, element });
             }
             else
             {
                 uiDataMapperElementInstance =
-                    (UiDataMapperElementInstance)Activator.CreateInstance(dataMapperType,
+                    (UiDataMapperElementInstance)RundoEngine.DataFactory.Instantiate(dataMapperType, null,
                         new object[] { element });
             }
 

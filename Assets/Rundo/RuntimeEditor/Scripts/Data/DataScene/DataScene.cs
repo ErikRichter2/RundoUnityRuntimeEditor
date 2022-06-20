@@ -22,7 +22,7 @@ namespace Rundo.RuntimeEditor.Data
         public TGuid<DataScene.TDataSceneId> Guid;
     }
     
-    public sealed class DataScene : BaseData, ICommandProcessorProvider, IDataGameObjectFinder, IDataGameObjectContainer
+    public class DataScene : BaseData, ICommandProcessorProvider, IDataGameObjectFinder, IDataGameObjectContainer
     {
         public struct TDataSceneId {}
         
@@ -31,6 +31,8 @@ namespace Rundo.RuntimeEditor.Data
 
         [JsonIgnore]
         public ICommandProcessor CommandProcessor { get; private set; } = new CommandProcessor();
+        
+        protected DataScene() {}
 
         public override void OnInstantiated()
         {
