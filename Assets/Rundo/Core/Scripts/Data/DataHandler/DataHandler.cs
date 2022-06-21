@@ -393,7 +393,7 @@ namespace Rundo.Core.Data
             return _pathFromRoot[_pathFromRoot.Count - 1].Name;
         }
 
-        public Type GetDataType()
+        public Type GetDataType(string memberName)
         {
             if (_rootData.Count <= 0)
                 return null;
@@ -402,6 +402,8 @@ namespace Rundo.Core.Data
             var res = obj.GetType();
 
             var dataPath = new List<PathData>(_pathFromRoot);
+            if (string.IsNullOrEmpty(memberName) == false)
+                dataPath.Add(new PathData{Name = memberName});
             for (var i = 0; i < dataPath.Count; ++i)
             {
                 if (dataPath[i].IsListIndex)
@@ -415,6 +417,11 @@ namespace Rundo.Core.Data
             }
             
             return obj.GetType();
+        }
+
+        public Type GetDataType()
+        {
+            return GetDataType(null);
         }
 
         public T GetRawValue<T>(int dataIndex)

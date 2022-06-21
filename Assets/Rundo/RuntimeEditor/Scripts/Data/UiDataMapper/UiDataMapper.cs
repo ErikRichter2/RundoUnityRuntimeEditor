@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using Rundo.Core.Commands;
 using Rundo.Core.Data;
+using Rundo.Core.Utils;
 using Rundo.RuntimeEditor.Behaviours;
 using Rundo.RuntimeEditor.Factory;
 using TMPro;
@@ -35,6 +37,13 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
         {
             DataHandler?.RemoveListeners();
             ClearElements();
+        }
+
+        public void SetData(object obj, CommandProcessor commandProcessor)
+        {
+            var dataHandler = new DataHandler(commandProcessor);
+            dataHandler.SetRootData(obj);
+            SetDataHandler(dataHandler);
         }
 
         public void SetDataHandler(DataHandler dataHandler)
@@ -152,6 +161,25 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
             throw new Exception($"Cannot create ui element for type {valueType.Name}");
         }
 
+        public void Bind<T>(string memberName)
+        {
+            Bind(typeof(T), memberName);
+        }
+
+        public void Bind(Type type, string memberName)
+        {
+            var memberInfo = ReflectionUtils.GetMemberInfo(type, memberName);
+            var elementInstance = CreatePrimitive(ReflectionUtils.GetMemberType(memberInfo), StringUtils.ToPascalCase(memberName), memberName);
+            if (elementInstance == null)
+                throw new Exception($"Can't bind - UI element for type {type.Name} not found !");
+            elementInstance.Bind(memberName);
+        }
+
+        public void Bind(string memberName)
+        {
+            Bind(DataHandler.GetDataType(memberName), memberName);
+        }
+
         public UiDataMapperElementInstance<TValue> CreatePrimitive<TValue>(string label, string name = null)
         {
             if (string.IsNullOrEmpty(name))
@@ -197,6 +225,19 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
             return Instantiate<UiDataMapperElementInstance<TValue>>(element);
         }
         
+        public UiDataMapperElementInstance<TValue> Bind<TData, TValue>(IUiDataMapperElementBehaviour<TValue> element, string memberName)
+        {
+            var res = Instantiate<UiDataMapperElementInstance<TValue>>(element);
+            res.Bind(typeof(TData), memberName);
+            return res;
+        }
+        
+        public UiDataMapperElementInstance<TValue> Bind<TValue>(IUiDataMapperElementBehaviour<TValue> element, string memberName)
+        {
+            var res = Instantiate<UiDataMapperElementInstance<TValue>>(element);
+            res.Bind(memberName);
+            return res;
+        }
 
 
         // these are mappings for Unity Components - or any components, where we don't have implemented an

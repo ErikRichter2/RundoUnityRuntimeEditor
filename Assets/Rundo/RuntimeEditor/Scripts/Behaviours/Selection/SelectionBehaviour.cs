@@ -172,8 +172,9 @@ namespace Rundo.RuntimeEditor.Behaviours
             DispatchUiEvent(new SelectObjectEvent());
         }
 
-        public void RefreshRuntimeTransformHandlePosition()
+        private void RefreshRuntimeTransformHandlePosition()
         {
+            _runtimeTransformHandle.target = _runtimeTransformHandleMultiTarget.transform;
             _runtimeTransformHandle.gameObject.SetActive(_transformableSelection.Count > 0);
 
             if (_transformableSelection.Count <= 0)

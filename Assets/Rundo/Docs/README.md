@@ -16,7 +16,7 @@ Rundo is a simple yet powerfull runtime editor made in Unity which allows for us
 
 # Quick Guide
 
-### Components
+## Components
 
 You can use your own custom Unity Components - just add `[DataComponent]` and `[DataTypeId]` class attributes - use some random generated guid value (more about this attributes later in the docs):
 
@@ -33,8 +33,79 @@ And you can start using this component in the editor:
 
 ![Intro Components](./Assets/rundo-doc-intro-components.gif)
 
+## Inspector
 
-### Inspector
+```
+public class ExampleData
+{
+    public int Foo;
+    public string Bool;
+}
+
+var exampleData = new ExampleData();
+```
+
+### Implicit Inspector
+
+Most simple way to draw an object's inspector is to add object to the selection - inspector automatically draws properties of selected objects.
+
+Add object instance to selection:
+```
+RuntimeEditorController.SelectionBehaviour.AddToSelection(exampleData);
+```
+Inspector implicitly draws object's properites:
+
+![Intro Components](./Assets/rundo-doc-inspector-1.png)
+
+### Explicit Inspector
+
+If you want to control when and where to draw object's inspector, just use the `UiFactory` static class - in this case, you have to provide a `Transform` content to which the UI elements will instantiate and a `CommandProcessor` instance, which will be used for keeping the Undo operations when changing object's properties:
+
+```
+UiFactory.DrawInspector(exampleData, content, commandProcessor);
+```
+
+The result is the same as in the implicit draw.
+
+## UI <-> Data mapper
+
+The `UiDataMapper` class provides a binding between UI element (view) and an object primitive property (data). It automatically generates data-change command when the user submits values and redraws itself when such a command is processed.
+
+```
+var uiDataMapper = new UiDataMapper();
+```
+### Dynamic content
+
+To create UI elements dynamically in the runtime. First we need to set content into which elements are instantiated:
+```
+uiDataMapper.SetUiElementsContent(content);
+```
+We can call `Bind()` function which creates an UI element and binds it to the property of object. :
+```
+uiDataMapper.Bind<ExampleData>(nameof(exampleData.Foo));
+uiDataMapper.Bind<ExampleData>(nameof(exampleData.Boo));
+```
+And finally, we set the data whom values will be rendered to those input fields:
+```
+uiDataMapper.SetData(exampleData, commandProcessor);
+```
+
+### Pre-existing prefab content
+If we already have a behaviour with set UI elements, we can use `UiDataMapper` to map object properties to existing prefabs:
+
+```
+public class ExampleDataCustomInspector : MonoBehaviour
+{
+    public InputFieldIntBehaviour FooInput;
+    public InputFieldStringBehaviour BooInput;
+}
+```
+Then we just use `Bind()` function with existing UI element as an argument:
+```
+uiDataMapper.Bind<ExampleData>(FooInput, nameof(exampleData.Foo));
+uiDataMapper.Bind<ExampleData>(BooInput, nameof(exampleData.Boo));
+```
+The result is the same as binding dynamic content.
 
 # Technical documentation
 
@@ -499,4 +570,3 @@ In this case, the data deserialization process creates a `DataExampleModel` inst
 var dataExample = RundoEngine.DataFactory.Instantiate<DataExample>();
 dataExample.Model.Validate();
 ```
-

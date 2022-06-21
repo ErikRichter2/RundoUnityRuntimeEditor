@@ -31,9 +31,9 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
         {
             GetOrCreateCss().SuppressChildrenCss();
             
-            UiDataMapper.Map(_x).Bind(nameof(Vector3.x));
-            UiDataMapper.Map(_y).Bind(nameof(Vector3.y));
-            UiDataMapper.Map(_z).Bind(nameof(Vector3.z));
+            UiDataMapper.Bind(_x, nameof(Vector3.x));
+            UiDataMapper.Bind(_y, nameof(Vector3.y));
+            UiDataMapper.Bind(_z, nameof(Vector3.z));
         }
 
         public CssBehaviour GetOrCreateCss()

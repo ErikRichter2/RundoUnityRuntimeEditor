@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Rundo.Core.Commands;
 using Rundo.Core.Data;
 using Rundo.Core.Utils;
 using Rundo.RuntimeEditor.Behaviours;
@@ -178,6 +179,19 @@ namespace Rundo.RuntimeEditor.Factory
             }
 
             return null;
+        }
+
+        public static GameObject DrawInspector(object obj, Transform content, CommandProcessor commandProcessor, bool showDefaultHeader = true)
+        {
+            if (obj == null)
+                throw new Exception($"Cannot draw null object");
+            if (obj.GetType().IsValueType)
+                throw new Exception($"Cannot draw value type object of type {obj.GetType().Name}");
+
+            var dataHandler = new DataHandler(commandProcessor);
+            dataHandler.SetRootData(obj);
+            
+            return DrawInspector(dataHandler, content, showDefaultHeader);
         }
 
         public static GameObject DrawInspector(DataHandler dataHandler, Transform content, bool showDefaultHeader = true)

@@ -136,6 +136,32 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
                 return _convertValueBeforeSetToUi.Value.Convert(value);
             return value;
         }
+
+        /**
+         * Binds a field or property to this UI element mapper. Input member name must be a member of TData type.
+         */
+        public void Bind(Type type, params string[] memberNames)
+        {
+            var memberInfos = new List<MemberInfo>();
+
+            foreach (var memberName in memberNames)
+            {
+                var memberInfo = ReflectionUtils.GetMemberInfo(type, memberName);
+                
+                if (memberInfo == null)
+                    throw new Exception($"Member {memberName} does not exist in the type {type.Name}");
+
+                memberInfos.Add(memberInfo);
+                type = ReflectionUtils.GetMemberType(memberInfo);
+            }
+
+            BindDynamic(memberInfos.ToArray());
+        }
+        
+        public void Bind(params string[] memberNames)
+        {
+            Bind(UiDataMapper.DataHandler.GetDataType(), memberNames);
+        }
     }
     
     public class UiDataMapperButtonInstance : UiDataMapperElementInstance
@@ -236,29 +262,6 @@ namespace Rundo.RuntimeEditor.Data.UiDataMapper
                 
                 elementWithValueBehaviour.SetValue(value);
             }
-        }
-
-        /**
-         * Binds a field or property to this UI element mapper. Input member name must be a member of TData type.
-         */
-        public void Bind(params string[] memberNames)
-        {
-            var memberType = UiDataMapper.DataHandler.GetDataType();
-            var memberInfos = new List<MemberInfo>();
-
-            foreach (var memberName in memberNames)
-            {
-                var memberInfo = ReflectionUtils.GetMemberInfo(memberType, memberName);
-                
-                if (memberInfo == null)
-                    throw new Exception($"Member {memberName} does not exist in the type {memberType.Name}");
-
-                memberInfos.Add(memberInfo);
-                memberType = ReflectionUtils.GetMemberType(memberInfo);
-            }
-
-            
-            Bind(memberInfos.ToArray());
         }
 
         public UiDataMapperElementInstance<TValue> BindCustom<TData>(
