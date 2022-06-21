@@ -5,8 +5,7 @@ Rundo is a simple yet powerfull runtime editor made in Unity which allows for us
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=BBC36K43P5424)
 
-### Web Build
-[Click here](https://simmer.io/@ErikRichter/rundo-runtime-unity-editor)
+### [Click to open web build](https://simmer.io/@ErikRichter/rundo-runtime-unity-editor)
 
 
 ### Features
