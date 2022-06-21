@@ -1,9 +1,13 @@
 # Rundo
 ## Unity Runtime Editor - Inspector, Hierarchy, Undo
 
-Rundo is a simple yet powerfull runtime editor made in Unity which allows for using Unity's editor basic (but most important) functions in the runtime.
+Rundo is a simple yet powerfull runtime editor made in Unity which allows for using Unity's editor functions in the runtime.
 
 [![Donate](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=BBC36K43P5424)
+
+### Web Build
+[Click here](https://simmer.io/@ErikRichter/rundo-runtime-unity-editor)
+
 
 ### Features
 - **Runtime environment** - Rundo editor and editor-playmode work in the runtime environment, which allows for the same code-base for the whole app-context (editor, editor-playmode, standalone playmode). No need to use `#if UNITY_EDITOR` branching.
