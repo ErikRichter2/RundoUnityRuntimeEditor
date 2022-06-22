@@ -1,4 +1,5 @@
-# Rundo
+![RUNDO](./Assets/rundo-logo.png)
+
 ## Unity Runtime Editor - Inspector, Hierarchy, Undo
 
 Rundo is a simple yet powerfull runtime editor made in Unity which allows for using Unity's editor functions in the runtime.
