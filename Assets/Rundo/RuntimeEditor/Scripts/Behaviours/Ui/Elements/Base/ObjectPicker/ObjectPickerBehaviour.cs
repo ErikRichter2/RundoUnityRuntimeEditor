@@ -66,7 +66,6 @@ namespace Rundo.RuntimeEditor.Behaviours.UI
 
         protected override void SetValueInternal(IDataComponentReference value)
         {
-            Value = value;
             string goName = value.GetDataGameObject(DataScene)?.Name;
             if (string.IsNullOrEmpty(goName))
                 goName = "(none)";

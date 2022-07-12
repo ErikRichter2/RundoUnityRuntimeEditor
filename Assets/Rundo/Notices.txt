@@ -1,0 +1,4 @@
+Third-Party Components:
+
+1. "HSV-Color-Picker-Unity" under "MIT" license, see https://github.com/judah4/HSV-Color-Picker-Unity
+2. "RuntimeTransformHandle" under "MIT" license, see https://github.com/pshtif/RuntimeTransformHandle
